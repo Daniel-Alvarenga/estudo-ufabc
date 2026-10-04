@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<title>Estudo UFABC 2026.3</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --text: #1d2330; --muted: #667085; --line: #e3e6eb;
+    --accent: #0b6e4f; --accent-soft: #e3f2ec; --warn: #b54708; --warn-soft: #fef0e1;
+    --danger: #b42318; --danger-soft: #fdecea; --info-soft: #eef3fb; --code: #f1f3f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b; --card: #1b2029; --text: #e6e8ec; --muted: #98a2b3; --line: #2b3240;
+      --accent: #4cc39a; --accent-soft: #173229; --warn: #f5a356; --warn-soft: #33261a;
+      --danger: #f97066; --danger-soft: #3a1d1b; --info-soft: #1d2533; --code: #232a35;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { position: sticky; top: 0; z-index: 5; background: var(--card); border-bottom: 1px solid var(--line); }
+  .bar { max-width: 860px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .bar h1 { font-size: 17px; margin: 0; flex: 1; white-space: nowrap; }
+  select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--text); }
+  nav { max-width: 860px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav button { border: 0; background: none; color: var(--muted); font: inherit; font-weight: 600; padding: 8px 10px; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+  nav button.on { color: var(--accent); border-bottom-color: var(--accent); }
+  main { max-width: 860px; margin: 0 auto; padding: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--info-soft); margin-right: 4px; }
+  .pill.prova { background: var(--danger-soft); color: var(--danger); }
+  .pill.lista { background: var(--warn-soft); color: var(--warn); }
+  .row { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+  h2 { font-size: 20px; margin: 4px 0 6px; } h3 { font-size: 16px; margin: 18px 0 8px; }
+  a { color: var(--accent); }
+  .deadline { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); margin-bottom: 8px; }
+  .deadline .d { min-width: 64px; text-align: center; font-weight: 700; font-size: 20px; line-height: 1.1; }
+  .deadline .d small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); }
+  .deadline.first { border: 2px solid var(--danger); background: var(--danger-soft); }
+  .deadline.soon .d { color: var(--warn); }
+  .deadline.past { opacity: .5; }
+  details { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 8px 0; background: var(--card); }
+  details summary { cursor: pointer; font-weight: 600; }
+  .ex { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; margin: 12px 0; }
+  .ex.A { border-color: #2e90fa; } .ex.B { border-color: #9e77ed; } .ex.C { border-color: var(--danger); }
+  .gab { background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin-top: 6px; }
+  .md p { margin: 6px 0; } .md ul, .md ol { padding-left: 22px; margin: 6px 0; }
+  .md code { background: var(--code); padding: 1px 4px; border-radius: 4px; }
+  .md table { border-collapse: collapse; margin: 8px 0; display: block; overflow-x: auto; }
+  .md td, .md th { border: 1px solid var(--line); padding: 4px 8px; }
+  .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+  pre.prompt { white-space: pre-wrap; background: var(--code); border-radius: 8px; padding: 12px; font-size: 14px; max-height: 340px; overflow: auto; }
+  button.btn { font: inherit; font-weight: 600; border: 1px solid var(--accent); color: var(--accent); background: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+  button.btn.solid { background: var(--accent); color: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 6px; }
+  .q { border: 1px solid var(--line); border-radius: 8px; text-align: center; padding: 6px 0; cursor: pointer; font-weight: 600; user-select: none; background: var(--card); }
+  .q.feito { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .q.duvida { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+  .q.hl { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .progress { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 6px 0; }
+  .progress > div { height: 100%; background: var(--accent); }
+  .lesson { cursor: pointer; }
+  .lesson.past { opacity: .55; }
+  .lesson.has::after { content: "material pronto"; font-size: 11px; font-weight: 600; color: var(--accent); margin-left: 6px; }
+  .empty { text-align: center; color: var(--muted); padding: 40px 0; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 14px; cursor: pointer; background: var(--card); }
+  .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <h1>Estudo UFABC 2026.3</h1>
+    <label class="muted">Eu sou <select id="pessoa"></select></label>
+  </div>
+  <nav id="tabs">
+    <button data-v="hoje" class="on">Próxima aula</button>
+    <button data-v="aulas">Aulas</button>
+    <button data-v="prazos">Prazos</button>
+    <button data-v="listas">Listas</button>
+    <button data-v="disc">Disciplinas</button>
+  </nav>
+</header>
+<main id="app"><div class="empty">Carregando…</div></main>
+
+<script>
+let D = null, view = 'hoje', aulaAberta = null, filtroDisc = '';
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+const DIAS = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+
+function fmtData(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return DIAS[dt.getUTCDay()] + ' ' + String(d).padStart(2, '0') + '/' + String(m).padStart(2, '0');
+}
+function dias(iso) {
+  const a = D.hoje.split('-').map(Number), b = iso.split('-').map(Number);
+  return Math.round((Date.UTC(b[0], b[1]-1, b[2]) - Date.UTC(a[0], a[1]-1, a[2])) / 86400000);
+}
+
+// Markdown com LaTeX: protege $...$ antes do marked, depois o KaTeX renderiza.
+function md(src) {
+  if (!src) return '';
+  const math = [];
+  let s = String(src).replace(/\$\$([\s\S]+?)\$\$/g, (m) => { math.push(m); return '@@M' + (math.length - 1) + '@@'; })
+                     .replace(/\$([^\$\n]+?)\$/g, (m) => { math.push(m); return '@@M' + (math.length - 1) + '@@'; });
+  s = marked.parse(s);
+  return s.replace(/@@M(\d+)@@/g, (_, i) => esc(math[+i]));
+}
+function renderMath(el) {
+  if (window.renderMathInElement) renderMathInElement(el, { delimiters: [
+    { left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }], throwOnError: false });
+}
+
+function disc(sigla) { return (D.Disciplinas.find(x => x.sigla === sigla) || {}).nome || sigla; }
+function conteudo(aulaId) { return D.Conteudo.find(c => c.aula_id === aulaId); }
+function aulasFiltradas() {
+  return D.Aulas.filter(a => !filtroDisc || a.disciplina === filtroDisc).sort((a, b) => (a.data + a.horario).localeCompare(b.data + b.horario));
+}
+function chipsDisc() {
+  const ds = D.Disciplinas.map(d => d.sigla);
+  if (ds.length < 2) return '';
+  return '<div class="chips">' + ['', ...ds].map(s => `<span class="chip ${s === filtroDisc ? 'on' : ''}" data-disc="${esc(s)}">${s ? esc(s) : 'Todas'}</span>`).join('') + '</div>';
+}
+
+// ---------- Views ----------
+function vHoje() {
+  const futuras = aulasFiltradas().filter(a => a.data >= D.hoje);
+  if (!futuras.length) return '<div class="empty">Nenhuma aula futura cadastrada.</div>';
+  // próxima aula de cada disciplina
+  const prox = {};
+  futuras.forEach(a => { if (!prox[a.disciplina]) prox[a.disciplina] = a; });
+  const lista = Object.values(prox).sort((a, b) => a.data.localeCompare(b.data));
+  let h = chipsDisc() + blocoPrazos(3);
+  lista.forEach(a => { h += aulaDetalhe(a); });
+  return h;
+}
+
+function aulaDetalhe(a) {
+  const c = conteudo(a.id);
+  const quando = a.data === D.hoje ? 'HOJE' : (dias(a.data) === 1 ? 'amanhã' : 'em ' + dias(a.data) + ' dias');
+  let h = `<div class="card"><div class="row"><span class="pill">${esc(a.disciplina)}</span><span class="muted">${fmtData(a.data)} · ${esc(a.horario)} · ${esc(a.sala)} · <b>${quando}</b></span></div>
+    <h2>Aula ${esc(a.num)} — ${esc(a.tema)}</h2>`;
+  if (a.topicos) h += `<div class="muted">${esc(a.topicos)}</div>`;
+  const links = [];
+  if (a.link_material) links.push(`<a href="${esc(a.link_material)}" target="_blank">${esc(a.material_prof || 'Material do professor')}</a>`);
+  if (a.questoes_lista) links.push('Lista: ' + esc(a.questoes_lista));
+  if (a.cai_em) links.push('Cai na <b>' + esc(a.cai_em) + '</b>');
+  if (links.length) h += `<p class="muted">${links.join(' · ')}</p>`;
+  if (!c) return h + '<p class="muted"><i>Material desta aula ainda não foi gerado.</i></p></div>';
+
+  h += `<details open><summary>1. Pré-aula (10 min)</summary><div class="md">${md(c.leitura_pre)}</div></details>`;
+  let exs = [];
+  try { exs = JSON.parse(c.exercicios_json || '[]'); } catch (e) {}
+  const nomes = { A: 'Bloco A — Aquecimento', B: 'Bloco B — Notação', C: 'Bloco C — Modelo de prova' };
+  h += '<details open><summary>2. Exercícios para a aula</summary>';
+  ['A', 'B', 'C'].forEach(b => {
+    const xs = exs.filter(x => x.bloco === b);
+    if (!xs.length) return;
+    h += `<h3>${nomes[b]}</h3>`;
+    xs.forEach((x, i) => {
+      h += `<div class="ex ${b}"><div class="md"><b>${b}${i + 1}.</b> ${md(x.enunciado)}</div>
+        ${x.fonte ? `<div class="muted">Fonte: ${esc(x.fonte)}</div>` : ''}
+        <details><summary>Gabarito comentado</summary><div class="gab md">${md(x.gabarito)}${x.comentario ? md('**Erro comum / dica:** ' + x.comentario) : ''}</div></details></div>`;
+    });
+  });
+  h += '</details>';
+  h += `<details><summary>3. Prompt para estudar com IA</summary>
+    <p class="muted">Cole no Claude, ChatGPT ou Gemini (versão grátis serve).</p>
+    <pre class="prompt" id="p-${esc(a.id)}">${esc(c.prompt_ia)}</pre>
+    <button class="btn solid" data-copy="p-${esc(a.id)}">Copiar prompt</button></details>`;
+  return h + '</div>';
+}
+
+function vAulas() {
+  if (aulaAberta) {
+    const a = D.Aulas.find(x => x.id === aulaAberta);
+    return '<p><button class="btn" data-back="1">← Todas as aulas</button></p>' + (a ? aulaDetalhe(a) : '');
+  }
+  let h = chipsDisc();
+  aulasFiltradas().forEach(a => {
+    const past = a.data < D.hoje;
+    h += `<div class="card lesson ${past ? 'past' : ''} ${conteudo(a.id) ? 'has' : ''}" data-aula="${esc(a.id)}">
+      <div class="row"><b>${fmtData(a.data)}</b><span class="muted">${esc(a.disciplina)} · aula ${esc(a.num)}</span></div>
+      <div>${esc(a.tema)}</div></div>`;
+  });
+  return h;
+}
+
+function blocoPrazos(limite) {
+  let ps = D.Prazos.filter(p => p.data >= D.hoje && (!filtroDisc || p.disciplina === filtroDisc));
+  const total = ps.length;
+  if (limite) ps = ps.slice(0, limite);
+  if (!ps.length) return '';
+  let h = limite ? '<h3>Vence primeiro</h3>' : '';
+  ps.forEach((p, i) => {
+    const n = dias(p.data);
+    const cls = (i === 0 ? 'first ' : '') + (n <= 7 ? 'soon' : '');
+    const tipo = (p.tipo || '').toLowerCase();
+    h += `<div class="deadline ${cls}"><div class="d">${n}<small>${n === 1 ? 'dia' : 'dias'}</small></div>
+      <div><span class="pill ${tipo.indexOf('prova') >= 0 ? 'prova' : tipo.indexOf('lista') >= 0 ? 'lista' : ''}">${esc(p.tipo)}</span>
+      <span class="pill">${esc(p.disciplina)}</span><div><b>${esc(p.titulo)}</b></div><div class="muted">${fmtData(p.data)}</div></div></div>`;
+  });
+  if (limite && total > limite) h += `<p class="muted">+${total - limite} na aba Prazos</p>`;
+  return h;
+}
+
+function vPrazos() {
+  let h = chipsDisc() + blocoPrazos(0);
+  const passados = D.Prazos.filter(p => p.data < D.hoje && (!filtroDisc || p.disciplina === filtroDisc));
+  if (passados.length) {
+    h += '<details><summary>Já passaram</summary>';
+    passados.forEach(p => { h += `<div class="deadline past"><div class="d">${fmtData(p.data)}</div><div>${esc(p.disciplina)} · ${esc(p.titulo)}</div></div>`; });
+    h += '</details>';
+  }
+  return h || '<div class="empty">Nenhum prazo cadastrado.</div>';
+}
+
+function statusDe(pessoa, item) {
+  const p = D.Progresso.find(x => x.pessoa_id === pessoa && x.item_id === item);
+  return p ? p.status : '';
+}
+
+function vListas() {
+  const eu = $('#pessoa').value;
+  let h = chipsDisc() + '<p class="muted">Toque numa questão: 1× feita · 2× dúvida · 3× limpa. Contorno verde = questão da próxima aula.</p>';
+  const proxAulas = new Set();
+  const futuras = D.Aulas.filter(a => a.data >= D.hoje).sort((a, b) => a.data.localeCompare(b.data));
+  if (futuras[0]) proxAulas.add(futuras[0].id);
+  D.Listas.filter(l => !filtroDisc || l.disciplina === filtroDisc).forEach(l => {
+    const qs = D.ListaQuestoes.filter(q => q.lista_id === l.id).sort((a, b) => +a.numero - +b.numero);
+    h += `<div class="card"><div class="row"><h2>${esc(l.titulo)}</h2><span class="pill lista">entrega ${fmtData(l.prazo)} (${dias(l.prazo)} dias)</span></div>
+      <div class="muted">${esc(l.formato)} ${l.peso ? '· ' + esc(l.peso) : ''} ${l.link ? `· <a href="${esc(l.link)}" target="_blank">abrir PDF</a>` : ''}</div>`;
+    if (!qs.length) { h += '<p class="muted">Ainda não publicada.</p></div>'; return; }
+    D.Pessoas.forEach(p => {
+      const feitas = qs.filter(q => statusDe(p.id, q.id) === 'feito').length;
+      const pct = Math.round(100 * feitas / qs.length);
+      h += `<div class="row"><span>${esc(p.nome)}${p.id === eu ? ' (você)' : ''}</span><span class="muted">${feitas}/${qs.length}</span></div><div class="progress"><div style="width:${pct}%"></div></div>`;
+    });
+    // agrupado por tema
+    const temas = [];
+    qs.forEach(q => { if (temas.indexOf(q.tema) < 0) temas.push(q.tema); });
+    temas.forEach(t => {
+      h += `<h3>${esc(t)}</h3><div class="grid">`;
+      qs.filter(q => q.tema === t).forEach(q => {
+        const st = statusDe(eu, q.id);
+        h += `<div class="q ${st} ${proxAulas.has(q.aula_id) ? 'hl' : ''}" data-q="${esc(q.id)}" title="${esc(q.resumo)}">${esc(q.numero)}</div>`;
+      });
+      h += '</div>';
+    });
+    h += '</div>';
+  });
+  return h;
+}
+
+function vDisc() {
+  let h = '';
+  D.Disciplinas.forEach(d => {
+    h += `<div class="card"><h2>${esc(d.nome)}</h2><p class="muted">${esc(d.codigo)} · ${esc(d.turma)}</p>
+      <p><b>Professor:</b> ${esc(d.professor)} ${d.email_prof ? '— ' + esc(d.email_prof) : ''}<br>
+      <b>Horários:</b> ${esc(d.horarios)}<br><b>Sala:</b> ${esc(d.sala)}</p>
+      <h3>Como é cobrado</h3><div class="md">${md(d.formato_prova)}</div>
+      <h3>Avaliação</h3><div class="md">${md(d.criterio_avaliacao)}</div>
+      <h3>Bibliografia</h3><div class="md">${md(d.bibliografia)}</div>
+      <p>${[['Material do professor', d.link_material], ['Plano de ensino', d.link_plano], ['SIGAA', d.link_sigaa], ['Moodle', d.link_moodle]]
+        .filter(x => x[1]).map(x => `<a href="${esc(x[1])}" target="_blank">${x[0]}</a>`).join(' · ')}</p>
+      ${d.obs ? `<div class="md muted">${md(d.obs)}</div>` : ''}</div>`;
+  });
+  const mud = D.Mudancas.slice(-10).reverse();
+  if (mud.length) {
+    h += '<div class="card"><h2>Últimas mudanças detectadas</h2>';
+    mud.forEach(m => { h += `<p><b>${esc(m.data)}</b> · ${esc(m.disciplina)} — ${esc(m.o_que_mudou)} <span class="muted">(${esc(m.fonte)})</span></p>`; });
+    h += '</div>';
+  }
+  return h;
+}
+
+function render() {
+  const fn = { hoje: vHoje, aulas: vAulas, prazos: vPrazos, listas: vListas, disc: vDisc }[view];
+  $('#app').innerHTML = fn();
+  renderMath($('#app'));
+}
+
+// ---------- Eventos ----------
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-v],[data-aula],[data-back],[data-copy],[data-q],[data-disc]');
+  if (!t) return;
+  if (t.dataset.v) {
+    view = t.dataset.v; aulaAberta = null;
+    document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b === t));
+    render(); window.scrollTo(0, 0);
+  } else if (t.dataset.aula) { aulaAberta = t.dataset.aula; render(); window.scrollTo(0, 0); }
+  else if (t.dataset.back) { aulaAberta = null; render(); }
+  else if (t.dataset.disc !== undefined) { filtroDisc = t.dataset.disc; render(); }
+  else if (t.dataset.copy) copiar(t);
+  else if (t.dataset.q) marcar(t);
+});
+
+function copiar(btn) {
+  const txt = document.getElementById(btn.dataset.copy).textContent;
+  const ok = () => { btn.textContent = 'Copiado ✓'; setTimeout(() => btn.textContent = 'Copiar prompt', 1500); };
+  const fallback = () => {
+    const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); ok(); } catch (e) { alert('Selecione o texto e copie manualmente.'); }
+    ta.remove();
+  };
+  if (navigator.clipboard) navigator.clipboard.writeText(txt).then(ok, fallback); else fallback();
+}
+
+function marcar(el) {
+  const eu = $('#pessoa').value, item = el.dataset.q;
+  const atual = statusDe(eu, item);
+  const novo = atual === '' ? 'feito' : atual === 'feito' ? 'duvida' : '';
+  const reg = D.Progresso.find(x => x.pessoa_id === eu && x.item_id === item);
+  if (reg) reg.status = novo; else D.Progresso.push({ pessoa_id: eu, item_id: item, status: novo });
+  render();
+  const falhou = err => { alert('Não salvou: ' + (err && err.message || err)); load(); };
+  if (NO_APPS_SCRIPT) {
+    // text/plain evita preflight CORS; credentials 'omit' evita o bug de várias contas Google.
+    fetch(API_URL, { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'progress', pessoa_id: eu, item_id: item, status: novo }) })
+      .then(r => r.json()).then(r => { if (!r.ok) falhou(r.error); }).catch(falhou);
+  } else {
+    google.script.run.withFailureHandler(falhou).setProgress(eu, item, novo);
+  }
+}
+
+$('#pessoa').addEventListener('change', e => { store.set('pessoa', e.target.value); render(); });
+
+// Fora do Apps Script (página hospedada à parte), lê os dados pela API JSON.
+const API_URL = 'https://script.google.com/macros/s/AKfycbyle7ahYFEoJI1T7GMXuSwWQ_ONjCFcPyGK9yYVUn4Ok2jPjJNWgIzO1-48Or-4Oi1K/exec';
+const NO_APPS_SCRIPT = !(window.google && google.script && google.script.run);
+
+function load() {
+  const ok = json => {
+    D = typeof json === 'string' ? JSON.parse(json) : json;
+    const sel = $('#pessoa');
+    sel.innerHTML = D.Pessoas.map(p => `<option value="${esc(p.id)}">${esc(p.nome)}</option>`).join('');
+    const salvo = store.get('pessoa');
+    if (salvo && D.Pessoas.some(p => p.id === salvo)) sel.value = salvo;
+    render();
+  };
+  const erro = err => { $('#app').innerHTML = '<div class="empty">Erro ao carregar: ' + esc(err && err.message || err) + '</div>'; };
+  if (NO_APPS_SCRIPT) {
+    fetch(API_URL + '?api=data', { credentials: 'omit' }).then(r => r.json()).then(ok).catch(erro);
+  } else {
+    google.script.run.withSuccessHandler(ok).withFailureHandler(erro).getData();
+  }
+}
+load();
+</script>
+</body>
+</html>
