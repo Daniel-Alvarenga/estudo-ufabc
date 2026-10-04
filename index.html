@@ -73,7 +73,7 @@ main { min-width: 0; }
   .page { padding: 4px 16px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom)); }
   .bottomnav { display: flex; position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; height: calc(var(--nav-h) + env(safe-area-inset-bottom));
     padding-bottom: env(safe-area-inset-bottom); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
-  .bottomnav a { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: var(--muted); font-size: 11px; font-weight: 600; }
+  .bottomnav a { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: var(--muted); font-size: 11px; font-weight: 600; }
   .bottomnav a svg { width: 22px; height: 22px; }
   .bottomnav a.on { color: var(--text); }
 }
@@ -165,6 +165,9 @@ a.ev:hover { background: var(--surface-2); }
 .md h3 { font-size: 15px; margin: 18px 0 6px; } .md h3:first-child { margin-top: 2px; }
 .md blockquote { margin: 8px 0; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); border: 0; }
 .md code { background: var(--surface-2); padding: 1px 5px; border-radius: 5px; font-size: .92em; }
+.md pre { background: var(--surface-2); padding: 12px 14px; border-radius: 10px; overflow-x: auto; font-size: 13px; line-height: 1.5; margin: 8px 0; }
+.md pre code { background: none; padding: 0; font-size: inherit; }
+.md table { font-size: 13.5px; } .md th { background: var(--surface-2); text-align: left; }
 .md details { margin-top: 10px; }
 .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
 .katex { font-size: 1.05em; }
@@ -263,6 +266,24 @@ a.ev:hover { background: var(--surface-2); }
 .matrix td.hl { background: color-mix(in srgb, var(--c) 10%, transparent); }
 .ca { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
 .ca .num { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; }
+
+/* Revisão / flashcards */
+.fc-wrap { max-width: 560px; margin-left: auto; margin-right: auto; }
+.fc { width: 100%; min-height: 240px; border-radius: 22px; border: 1px solid var(--line); background: var(--surface); box-shadow: var(--shadow-lg); cursor: pointer; padding: 26px 22px 40px; position: relative; display: grid; place-items: center; text-align: center; font-size: 17px; line-height: 1.5; }
+.fc.flip { background: color-mix(in srgb, var(--c) 9%, var(--surface)); border-color: color-mix(in srgb, var(--c) 40%, var(--line)); }
+.fc .fc-face { width: 100%; }
+.fc .fc-face p { margin: 4px 0; }
+.fc .fc-hint { position: absolute; bottom: 12px; left: 0; right: 0; font-size: 12px; color: var(--muted); }
+.mente ol, .mente ul { padding-left: 22px; } .mente li { margin: 8px 0; }
+/* Agenda/linhas no celular */
+@media (max-width: 520px) {
+  .ev .when { width: 46px; } .ev .when b { font-size: 15px; } .ev .when span { font-size: 10px; letter-spacing: 0; }
+  .agenda-head { flex-direction: column; align-items: stretch !important; gap: 10px; }
+  .agenda-head .week-nav { justify-content: space-between; } .agenda-head .week-nav .btn { flex: 1; }
+  .day-head { font-size: 14.5px; }
+  .hero-title { font-size: 24px; }
+  .dhero { padding: 18px 16px 16px; } .dhero h1 { font-size: 21px; }
+}
 </style>
 </head>
 <body>
@@ -290,6 +311,7 @@ const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
   cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>',
   book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20"/></svg>',
+  target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>',
   grade: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
   flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-1.5 4L16 12H5"/></svg>',
   chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>',
@@ -457,7 +479,7 @@ function route() {
 function render() {
   if (!D) return;
   const r = route();
-  const views = { hoje: vHoje, agenda: vAgenda, disc: r.a ? vDisc : vDiscs, aula: vAula, prazos: vPrazos, notas: vNotas };
+  const views = { hoje: vHoje, agenda: vAgenda, disc: r.a ? vDisc : vDiscs, aula: vAula, prazos: vPrazos, notas: vNotas, prova: r.a ? vProva : vProvas };
   const fn = views[r.name] || vHoje;
   renderChrome(r);
   const page = $('#page');
@@ -468,7 +490,7 @@ function render() {
   setSync(S.syncState);
 }
 function renderChrome(r) {
-  const nav = [['hoje', 'Hoje', ICON.home], ['agenda', 'Agenda', ICON.cal], ['disc', 'Disciplinas', ICON.book], ['notas', 'Notas', ICON.grade], ['prazos', 'Prazos', ICON.flag]];
+  const nav = [['hoje', 'Hoje', ICON.home], ['agenda', 'Agenda', ICON.cal], ['prova', 'Provas', ICON.target], ['disc', 'Matérias', ICON.book], ['notas', 'Notas', ICON.grade], ['prazos', 'Prazos', ICON.flag]];
   const active = r.name === 'aula' ? 'disc' : r.name;
   const links = nav.map(([k, l, ic]) => `<a class="navlink ${active === k ? 'on' : ''}" href="#/${k}">${ic}<span>${l}</span></a>`).join('');
   const discs = D.Disciplinas.map(d => `<a class="disc-link ${(r.name === 'disc' && r.a === d.sigla) || (r.name === 'aula' && r.a && r.a.startsWith(d.sigla + '-')) ? 'on' : ''}" href="#/disc/${esc(d.sigla)}" style="${cvar(d.sigla)}"><span class="dot"></span>${esc(d.nome_curto || d.nome)}</a>`).join('');
@@ -478,6 +500,7 @@ function renderChrome(r) {
   let crumb = '';
   if (r.name === 'disc' && r.a) crumb = `<a href="#/disc">Disciplinas</a> / ${esc(disc(r.a).nome_curto)}`;
   else if (r.name === 'aula') { const a = D.Aulas.find(x => x.id === r.a); if (a) crumb = `<a href="#/disc/${esc(a.disciplina)}">${esc(disc(a.disciplina).nome_curto)}</a> / Aula ${esc(a.num)}`; }
+  else if (r.name === 'prova' && r.a) { const rv = rev(r.a); crumb = rv ? `<a href="#/prova">Provas</a> / ${esc(rv.titulo)}` : ''; }
   else crumb = esc(fmtLong(TODAY()));
   $('#crumb').innerHTML = crumb;
 }
@@ -501,13 +524,14 @@ function evPrazo(p) {
   const cls = n < 0 ? '' : n <= 3 ? 'hot' : n <= 7 ? 'warm' : '';
   const box = p.check ? `<button class="check ${status(p.id) === 'feito' ? 'on' : ''}" data-toggle="${esc(p.id)}" title="Marcar como feito">${ICON.check}</button>` : '';
   const kindChip = p.kind === 'prova' ? '<span class="chip danger">Prova</span>' : '<span class="chip warn">Entrega</span>';
-  const target = p.kind === 'prova' ? `#/disc/${esc(p.sig)}/avaliacao` : `#/disc/${esc(p.sig)}/listas`;
+  const target = p.kind === 'prova' ? (rev(p.id) ? `#/prova/${esc(p.id)}` : `#/disc/${esc(p.sig)}/avaliacao`) : `#/disc/${esc(p.sig)}/listas`;
+  const revChip = p.kind === 'prova' && rev(p.id) && p.data >= TODAY() ? '<span class="chip ok">Revisão pronta</span>' : '';
   return `<div class="ev ${done && p.kind !== 'prova' ? 'done-row' : ''}" style="${cvar(p.sig)}">
     <div class="count ${done ? '' : cls}"><div><b>${n < 0 ? '–' : n}</b><span>${n === 0 ? 'hoje' : n === 1 ? 'dia' : n < 0 ? 'passou' : 'dias'}</span></div></div>
     <span class="stripe"></span>
     <a class="grow" href="${target}" style="text-decoration:none"><div class="ttl">${esc(p.titulo)}</div>
     <div class="meta">${esc(disc(p.sig).nome_curto)} · ${esc(fmtShort(p.data))}${p.hora ? ' · ' + esc(p.hora) : ''}${p.sub ? ' · ' + esc(p.sub) : ''}</div></a>
-    <span class="kind">${kindChip}</span>${box}</div>`;
+    <span class="kind">${revChip}${kindChip}</span>${box}</div>`;
 }
 function progressPeople(items, c) {
   return `<div class="people">${D.Pessoas.map(p => {
@@ -616,6 +640,108 @@ function vNotas() {
   return h;
 }
 
+// ================= Revisão de prova =================
+const rev = id => (D.Revisao || []).find(r => r.id === id);
+function parseJ(s) { try { return JSON.parse(s || '[]'); } catch (e) { return []; } }
+function revStats(r) {
+  const fcs = parseJ(r.flashcards_json), exs = parseJ(r.exercicios_json);
+  const fcIds = fcs.map((_, i) => `${r.id}-FC${String(i + 1).padStart(2, '0')}`);
+  const exIds = exs.map((_, i) => exId(r.id, exs, i));
+  const fcOk = fcIds.filter(i => status(i) === 'acertei').length;
+  const exOk = exIds.filter(i => status(i) === 'acertei').length;
+  const total = fcIds.length + exIds.length;
+  return { fcs, exs, fcIds, exIds, fcOk, exOk, pct: total ? Math.round(100 * (fcOk + exOk) / total) : 0,
+    fcErr: fcIds.filter(i => status(i) === 'errei').length, exErr: exIds.filter(i => status(i) === 'errei').length };
+}
+// Bloco de exercícios A/B/C reutilizado por aula e prova.
+function exBlocks(baseId, exs) {
+  const ids = exs.map((x, i) => exId(baseId, exs, i));
+  const nomes = { A: ['Aquecimento', 'direto, 1–2 min cada'], B: ['Notação e definições', 'ler e escrever os símbolos'], C: ['Modelo de prova', 'nível da prova, inclui demonstração'] };
+  let h = '';
+  ['A', 'B', 'C'].forEach(b => {
+    const xs = exs.map((x, i) => [x, i]).filter(([x]) => x.bloco === b);
+    if (!xs.length) return;
+    h += `<div class="card section" style="margin-top:16px"><div class="block-head"><span class="num">${b}</span><h3>${nomes[b][0]}</h3><span class="small muted">${nomes[b][1]}</span></div>`;
+    xs.forEach(([x, i], k) => {
+      const id = ids[i]; const st = status(id);
+      h += `<div class="ex"><div class="row" style="align-items:flex-start;gap:12px"><span class="num">${b}${k + 1}</span><div class="grow" style="min-width:0">
+        <div class="md">${md(x.enunciado)}</div>${x.fonte ? `<div class="tiny muted" style="margin-top:4px">Fonte: ${esc(x.fonte)}</div>` : ''}
+        <details ${st ? 'open' : ''}><summary class="small" style="cursor:pointer;margin-top:10px;font-weight:600">Ver gabarito comentado</summary>
+        <div class="gab md">${md(x.gabarito)}${x.comentario ? `<div class="tip">${md('**Erro comum / dica:** ' + x.comentario)}</div>` : ''}</div>
+        <div class="selfcheck"><button class="acertei ${st === 'acertei' ? 'on' : ''}" data-self="${esc(id)}" data-v="acertei">Acertei</button><button class="errei ${st === 'errei' ? 'on' : ''}" data-self="${esc(id)}" data-v="errei">Errei / travei</button></div>
+        </details></div></div></div>`;
+    });
+    h += '</div>';
+  });
+  return h;
+}
+function provaCards() {
+  const t = TODAY();
+  const rs = (D.Revisao || []).filter(r => r.data >= t).sort((a, b) => a.data.localeCompare(b.data));
+  if (!rs.length) return '';
+  return `<div class="dgrid">${rs.map(r => {
+    const st = revStats(r); const n = diff(t, r.data);
+    return `<a class="dcard" href="#/prova/${esc(r.id)}" style="${cvar(r.disciplina)}"><div class="row" style="justify-content:space-between"><span class="chip c">${esc(disc(r.disciplina).nome_curto)}</span>
+      <span class="chip ${n <= 7 ? 'danger' : n <= 14 ? 'warn' : ''}">${relDay(n)}</span></div>
+      <h3 style="margin-top:8px">${esc(r.titulo)}</h3><div class="small muted">${esc(fmtShort(r.data))} · ${st.fcs.length} flashcards · ${st.exs.length} exercícios</div>
+      <div class="bar" style="margin-top:12px"><i style="width:${st.pct}%"></i></div><div class="tiny muted" style="margin-top:6px">Preparação: ${st.pct}%${st.fcErr + st.exErr ? ` · ${st.fcErr + st.exErr} para revisar` : ''}</div></a>`;
+  }).join('')}</div>`;
+}
+function vProvas() {
+  return `<h1 class="hero-title" style="margin-top:8px">Provas</h1><p class="t2" style="margin:4px 0 0">Bloco de revisão de cada prova: o que cai, o que precisa estar na cabeça, fórmulas, flashcards e exercícios no estilo da prova.</p>
+    <div class="section">${provaCards() || '<div class="card empty">Nenhuma revisão cadastrada ainda.</div>'}</div>`;
+}
+function vProva(r0) {
+  const r = rev(r0.a);
+  if (!r) return '<div class="empty">Revisão não encontrada.</div>';
+  const d = disc(r.disciplina); const tab = r0.b || 'mapa'; const st = revStats(r); const n = diff(TODAY(), r.data);
+  const tabs = [['mapa', 'Mapa'], ['mente', 'Na mente'], ['formulas', 'Fórmulas'], ['cards', `Flashcards`], ['ex', 'Exercícios'], ['ia', 'IA']];
+  let h = `<div style="${cvar(r.disciplina)}"><div class="dhero"><div class="row wrap" style="gap:6px"><span class="chip c">${esc(d.nome_curto)}</span><span class="chip ${n <= 7 ? 'danger' : 'warn'}">${esc(fmtShort(r.data))} · ${relDay(n)}</span></div>
+    <h1>${esc(r.titulo)}</h1>
+    <div class="row" style="gap:12px;margin-top:10px"><div class="bar grow"><i style="width:${st.pct}%"></i></div><b class="small">${st.pct}%</b></div>
+    <div class="tiny muted" style="margin-top:6px">${st.fcOk}/${st.fcs.length} flashcards · ${st.exOk}/${st.exs.length} exercícios acertados</div></div>
+    <nav class="tabs">${tabs.map(([k, l]) => `<a class="${tab === k ? 'on' : ''}" href="#/prova/${esc(r.id)}/${k}">${l}</a>`).join('')}</nav>`;
+  if (tab === 'mapa') {
+    const aulas = D._aulas.filter(a => a.disciplina === r.disciplina && a.cai_em && r.id.endsWith('-' + a.cai_em) && a.tipo !== 'prova');
+    h += `<div class="section card pad md">${md(r.conteudo_md)}</div>`;
+    if (aulas.length) h += `<div class="section"><div class="section-head"><h2>Aulas que caem</h2><span class="small muted">${aulas.length}</span></div><div class="card">${aulas.map(a => evAula(a)).join('')}</div></div>`;
+    if (r.plano_md) h += `<div class="section card pad"><h2 style="font-size:17px;margin-bottom:6px">Plano até a prova</h2><div class="md">${md(r.plano_md)}</div></div>`;
+  } else if (tab === 'mente') {
+    h += `<div class="section card pad md mente">${md(r.mente_md)}</div>`;
+  } else if (tab === 'formulas') {
+    h += `<div class="section card pad md">${md(r.formulas_md)}</div>${r.definicoes_md ? `<div class="section card pad md">${md(r.definicoes_md)}</div>` : ''}`;
+  } else if (tab === 'cards') {
+    h += flashView(r, st);
+  } else if (tab === 'ex') {
+    h += exBlocks(r.id, st.exs) + `<div class="card pad section row wrap" style="justify-content:space-between"><div class="small"><b>${st.exOk}</b> acertos · <b>${st.exErr}</b> para revisar</div><a class="btn c" href="#/prova/${esc(r.id)}/ia">Revisar com IA ${ICON.chev}</a></div>`;
+  } else {
+    const errFc = st.fcs.filter((_, i) => status(st.fcIds[i]) === 'errei').map(c => '- ' + c.f);
+    const errEx = st.exs.filter((_, i) => status(st.exIds[i]) === 'errei').map(x => '- ' + x.enunciado.replace(/\$/g, '').slice(0, 220));
+    const extra = (errFc.length ? '\n\nFLASHCARDS QUE EU ERREI:\n' + errFc.join('\n') : '') + (errEx.length ? '\n\nEXERCÍCIOS QUE EU ERREI:\n' + errEx.join('\n') : '');
+    h += `<div class="section card pad"><div class="row wrap" style="justify-content:space-between;gap:10px"><div><h2 style="font-size:17px">Prompt de revisão</h2><div class="small muted">Cole no Claude, ChatGPT ou Gemini. ${errFc.length + errEx.length ? `Inclui seus ${errFc.length + errEx.length} erros.` : 'Marque flashcards e exercícios para ele focar nos seus erros.'}</div></div>
+      <button class="btn primary" data-copy="prompt-${esc(r.id)}">${ICON.copy} Copiar</button></div><pre class="prompt" id="prompt-${esc(r.id)}" style="margin-top:14px">${esc(r.prompt_ia + extra)}</pre></div>`;
+  }
+  return h + '</div>';
+}
+// Flashcards: um por vez, toque para virar, marca sabia/não sabia.
+S.fc = {};
+function flashView(r, st) {
+  const f = S.fc[r.id] = S.fc[r.id] || { i: 0, flip: false, modo: 'todos' };
+  let ord = st.fcs.map((c, i) => i);
+  if (f.modo === 'errei') ord = ord.filter(i => status(st.fcIds[i]) === 'errei');
+  if (f.modo === 'novos') ord = ord.filter(i => !status(st.fcIds[i]));
+  const modos = [['todos', `Todos (${st.fcs.length})`], ['novos', `Não vistos (${st.fcIds.filter(i => !status(i)).length})`], ['errei', `Errei (${st.fcErr})`]];
+  let h = `<div class="section filter">${modos.map(([k, l]) => `<button class="${f.modo === k ? 'on' : ''}" data-fcmodo="${esc(r.id)}|${k}">${l}</button>`).join('')}</div>`;
+  if (!ord.length) return h + `<div class="card empty section">${f.modo === 'errei' ? 'Nenhum card errado. 🎉' : 'Nada aqui.'}</div>`;
+  if (f.i >= ord.length) f.i = 0;
+  const idx = ord[f.i]; const c = st.fcs[idx]; const id = st.fcIds[idx]; const s0 = status(id);
+  h += `<div class="fc-wrap section"><div class="tiny muted" style="text-align:center;margin-bottom:8px">${f.i + 1} de ${ord.length}${c.tag ? ' · ' + esc(c.tag) : ''}${s0 ? ` · da última vez: ${s0 === 'acertei' ? 'sabia' : 'não sabia'}` : ''}</div>
+    <button class="fc ${f.flip ? 'flip' : ''}" data-fcflip="${esc(r.id)}"><div class="fc-face md">${f.flip ? md(c.v) : md(c.f)}</div><div class="fc-hint">${f.flip ? 'Resposta' : 'Toque para ver a resposta'}</div></button>
+    <div class="selfcheck" style="margin-top:14px">${f.flip ? `<button class="errei" data-fcmark="${esc(r.id)}|${esc(id)}|errei">Não sabia</button><button class="acertei" data-fcmark="${esc(r.id)}|${esc(id)}|acertei">Sabia</button>`
+      : `<button data-fcnav="${esc(r.id)}|-1">← Anterior</button><button data-fcnav="${esc(r.id)}|1">Pular →</button>`}</div></div>`;
+  return h;
+}
+
 // ================= Views =================
 function vHoje() {
   const t = TODAY();
@@ -627,7 +753,7 @@ function vHoje() {
   // alerta de semana crítica
   criticalWeeks().slice(0, 1).forEach(xs => {
     const ini = xs[0].data, fim = xs[xs.length - 1].data;
-    const list = xs.map(a => `<span class="chip c" style="${cvar(a.disciplina)}">${esc(disc(a.disciplina).nome_curto)} · ${esc(a.tipo)} · ${esc(fmtShort(a.data))}</span>`).join(' ');
+    const list = xs.map(a => `<a class="chip c" style="${cvar(a.disciplina)};text-decoration:none" href="${rev(a.id) ? '#/prova/' + esc(a.id) : '#/disc/' + esc(a.disciplina) + '/avaliacao'}">${esc(disc(a.disciplina).nome_curto)} · ${esc(a.tipo)} · ${esc(fmtShort(a.data))}${rev(a.id) ? ' →' : ''}</a>`).join(' ');
     h += `<div class="alert section"><div class="ic">!</div><div><div><b>Semana de provas: ${toD(ini).getDate()}/${toD(ini).getMonth() + 1} a ${toD(fim).getDate()}/${toD(fim).getMonth() + 1}</b> · ${xs.length} provas em ${diff(ini, fim) + 1} dias. Começa ${relDay(diff(t, ini))}.</div>
       <div class="row wrap" style="gap:6px;margin-top:8px">${list}</div></div></div>`;
   });
@@ -641,6 +767,9 @@ function vHoje() {
     h += prox.length ? `<div class="card">${prox.map(a => evAula(a, { rel: true })).join('')}</div>` : '<div class="card empty">Nenhuma aula futura.</div>';
   }
   h += '</div>';
+
+  const pc = provaCards();
+  if (pc) h += `<div class="section"><div class="section-head"><h2>Revisão para as provas</h2><a href="#/prova">Todas →</a></div>${pc}</div>`;
 
   // estudar agora: próximas aulas com material
   const comMat = D._aulas.filter(a => a.data >= t && D._cont[a.id]).slice(0, 3);
@@ -799,22 +928,7 @@ function vAula(r) {
       <div class="row" style="margin-top:14px;justify-content:space-between"><button class="btn ${preOk ? '' : 'primary'}" data-mark="${esc(a.id)}-PRE">${preOk ? '✓ Pré-aula lida' : 'Marquei como lida'}</button>
       <a class="btn c" href="#/aula/${esc(a.id)}/ex">Ir para os exercícios ${ICON.chev}</a></div>`;
   } else if (step === 'ex') {
-    const nomes = { A: ['Aquecimento', 'direto, 1–2 min cada'], B: ['Notação', 'ler e escrever os símbolos'], C: ['Modelo de prova', 'nível da prova, inclui demonstração'] };
-    ['A', 'B', 'C'].forEach(b => {
-      const xs = exs.map((x, i) => [x, i]).filter(([x]) => x.bloco === b);
-      if (!xs.length) return;
-      h += `<div class="card section" style="margin-top:16px"><div class="block-head"><span class="num">${b}</span><h3>${nomes[b][0]}</h3><span class="small muted">${nomes[b][1]}</span></div>`;
-      xs.forEach(([x, i], k) => {
-        const id = ids[i]; const st = status(id);
-        h += `<div class="ex"><div class="row" style="align-items:flex-start;gap:12px"><span class="num">${b}${k + 1}</span><div class="grow">
-          <div class="md">${md(x.enunciado)}</div>${x.fonte ? `<div class="tiny muted" style="margin-top:4px">Fonte: ${esc(x.fonte)}</div>` : ''}
-          <details ${st ? 'open' : ''}><summary class="small" style="cursor:pointer;margin-top:10px;font-weight:600">Ver gabarito comentado</summary>
-          <div class="gab md">${md(x.gabarito)}${x.comentario ? `<div class="tip">${md('**Erro comum / dica:** ' + x.comentario)}</div>` : ''}</div>
-          <div class="selfcheck"><button class="acertei ${st === 'acertei' ? 'on' : ''}" data-self="${esc(id)}" data-v="acertei">Acertei</button><button class="errei ${st === 'errei' ? 'on' : ''}" data-self="${esc(id)}" data-v="errei">Errei / travei</button></div>
-          </details></div></div></div>`;
-      });
-      h += '</div>';
-    });
+    h += exBlocks(a.id, exs);
     const ac = ids.filter(i => status(i) === 'acertei').length, er = ids.filter(i => status(i) === 'errei').length;
     h += `<div class="card pad section row wrap" style="justify-content:space-between"><div class="small"><b>${ac}</b> acertos · <b>${er}</b> para revisar · ${exs.length - ac - er} sem marcar</div>
       <a class="btn c" href="#/aula/${esc(a.id)}/ia">Revisar com IA ${ICON.chev}</a></div>`;
@@ -834,7 +948,7 @@ function vAgenda(r) {
   const end = addDays(start, 6);
   const ps = prazos().filter(p => p.kind === 'entrega');
   const label = `${toD(start).getDate()} ${MES[toD(start).getMonth()]} – ${toD(end).getDate()} ${MES[toD(end).getMonth()]}`;
-  let h = `<div class="row" style="justify-content:space-between;margin-top:8px"><h1 class="hero-title" style="margin:0">Agenda</h1>
+  let h = `<div class="row agenda-head" style="justify-content:space-between;margin-top:8px"><h1 class="hero-title" style="margin:0">Agenda</h1>
     <div class="week-nav"><a class="iconbtn" href="#/agenda/${addDays(start, -7)}" title="Semana anterior">${ICON.left}</a>
     <a class="btn sm" href="#/agenda">Esta semana</a><a class="iconbtn" href="#/agenda/${addDays(start, 7)}" title="Próxima semana">${ICON.chev}</a></div></div>
     <div class="t2" style="margin-top:4px">${label}</div>`;
@@ -887,7 +1001,7 @@ function toast(msg) {
   setTimeout(() => el.remove(), 1800);
 }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-who],[data-q],[data-toggle],[data-self],[data-mark],[data-copy],[data-filter],[data-simmode],[data-simreset],#me');
+  const t = e.target.closest('[data-who],[data-q],[data-toggle],[data-self],[data-mark],[data-copy],[data-filter],[data-simmode],[data-simreset],[data-fcflip],[data-fcmark],[data-fcnav],[data-fcmodo],#me');
   if (!t) return;
   if (t.id === 'me') { askWho(); return; }
   if (t.dataset.who) { S.pessoa = t.dataset.who; store.set('pessoa', S.pessoa); $('#overlay').innerHTML = ''; render(); return; }
@@ -909,6 +1023,16 @@ document.addEventListener('click', e => {
   if (t.dataset.filter !== undefined) { store.set('prazoFiltro', t.dataset.filter); render(); }
   if (t.dataset.simmode) { const sig = t.dataset.simmode; S.simMode[sig] = t.dataset.v === '1'; if (S.simMode[sig] && !S.sim[sig]) S.sim[sig] = {}; render(); return; }
   if (t.dataset.simreset) { S.sim[t.dataset.simreset] = {}; render(); return; }
+  if (t.dataset.fcflip) { const f = S.fc[t.dataset.fcflip]; f.flip = !f.flip; render(); return; }
+  if (t.dataset.fcnav) { const [id, dlt] = t.dataset.fcnav.split('|'); const f = S.fc[id]; f.i = Math.max(0, f.i + +dlt); f.flip = false; render(); return; }
+  if (t.dataset.fcmodo) { const [id, m] = t.dataset.fcmodo.split('|'); S.fc[id] = { i: 0, flip: false, modo: m }; render(); return; }
+  if (t.dataset.fcmark) {
+    const [id, item, v] = t.dataset.fcmark.split('|'); const f = S.fc[id];
+    setStatus(item, v);
+    if (f.modo === 'todos') f.i += 1;   // nos filtros, o card sai da lista sozinho
+    else if (f.modo === 'errei' && v === 'errei') f.i += 1;
+    f.flip = false; render(); return;
+  }
 });
 document.addEventListener('change', e => {
   if (e.target.id === 'hideDone') { S.hideDone = e.target.checked; store.set('hideDone', S.hideDone); render(); return; }
