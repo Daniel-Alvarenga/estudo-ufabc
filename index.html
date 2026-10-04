@@ -4,363 +4,775 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Estudo UFABC 2026.3</title>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F172A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <style>
+:root {
+  --bg: #F5F6F8; --surface: #FFFFFF; --surface-2: #F0F2F5; --surface-3: #E7EAEE;
+  --text: #0F172A; --text-2: #475467; --muted: #8A94A6; --line: #E4E7EC;
+  --ok: #067647; --ok-soft: #DCFAE6; --warn: #B54708; --warn-soft: #FEF0C7;
+  --danger: #C01048; --danger-soft: #FFE4E8; --ink: #0F172A; --on-ink: #FFFFFF;
+  --shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+  --shadow-lg: 0 12px 32px -8px rgba(16,24,40,.18);
+  --r: 16px; --r-sm: 10px; --nav-h: 64px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
   :root {
-    --bg: #f6f7f9; --card: #ffffff; --text: #1d2330; --muted: #667085; --line: #e3e6eb;
-    --accent: #0b6e4f; --accent-soft: #e3f2ec; --warn: #b54708; --warn-soft: #fef0e1;
-    --danger: #b42318; --danger-soft: #fdecea; --info-soft: #eef3fb; --code: #f1f3f6;
+    --bg: #0B0E14; --surface: #131822; --surface-2: #1A2030; --surface-3: #232B3D;
+    --text: #E8EBF1; --text-2: #A9B2C3; --muted: #6F7A8F; --line: #232A39;
+    --ok: #47CD89; --ok-soft: #0E2A1D; --warn: #FDB022; --warn-soft: #2E220B;
+    --danger: #FD6F8E; --danger-soft: #2E1018; --ink: #E8EBF1; --on-ink: #0B0E14;
+    --shadow: 0 1px 2px rgba(0,0,0,.3); --shadow-lg: 0 16px 40px -8px rgba(0,0,0,.6);
+    color-scheme: dark;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #12151b; --card: #1b2029; --text: #e6e8ec; --muted: #98a2b3; --line: #2b3240;
-      --accent: #4cc39a; --accent-soft: #173229; --warn: #f5a356; --warn-soft: #33261a;
-      --danger: #f97066; --danger-soft: #3a1d1b; --info-soft: #1d2533; --code: #232a35;
-    }
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
-    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  header { position: sticky; top: 0; z-index: 5; background: var(--card); border-bottom: 1px solid var(--line); }
-  .bar { max-width: 860px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-  .bar h1 { font-size: 17px; margin: 0; flex: 1; white-space: nowrap; }
-  select { font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--text); }
-  nav { max-width: 860px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-  nav::-webkit-scrollbar { display: none; }
-  nav button { border: 0; background: none; color: var(--muted); font: inherit; font-weight: 600; padding: 8px 10px; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
-  nav button.on { color: var(--accent); border-bottom-color: var(--accent); }
-  main { max-width: 860px; margin: 0 auto; padding: 16px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
-  .muted { color: var(--muted); font-size: 14px; }
-  .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--info-soft); margin-right: 4px; }
-  .pill.prova { background: var(--danger-soft); color: var(--danger); }
-  .pill.lista { background: var(--warn-soft); color: var(--warn); }
-  .row { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
-  h2 { font-size: 20px; margin: 4px 0 6px; } h3 { font-size: 16px; margin: 18px 0 8px; }
-  a { color: var(--accent); }
-  .deadline { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--card); margin-bottom: 8px; }
-  .deadline .d { min-width: 64px; text-align: center; font-weight: 700; font-size: 20px; line-height: 1.1; }
-  .deadline .d small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); }
-  .deadline.first { border: 2px solid var(--danger); background: var(--danger-soft); }
-  .deadline.soon .d { color: var(--warn); }
-  .deadline.past { opacity: .5; }
-  details { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; margin: 8px 0; background: var(--card); }
-  details summary { cursor: pointer; font-weight: 600; }
-  .ex { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; margin: 12px 0; }
-  .ex.A { border-color: #2e90fa; } .ex.B { border-color: #9e77ed; } .ex.C { border-color: var(--danger); }
-  .gab { background: var(--accent-soft); border-radius: 8px; padding: 8px 12px; margin-top: 6px; }
-  .md p { margin: 6px 0; } .md ul, .md ol { padding-left: 22px; margin: 6px 0; }
-  .md code { background: var(--code); padding: 1px 4px; border-radius: 4px; }
-  .md table { border-collapse: collapse; margin: 8px 0; display: block; overflow-x: auto; }
-  .md td, .md th { border: 1px solid var(--line); padding: 4px 8px; }
-  .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
-  pre.prompt { white-space: pre-wrap; background: var(--code); border-radius: 8px; padding: 12px; font-size: 14px; max-height: 340px; overflow: auto; }
-  button.btn { font: inherit; font-weight: 600; border: 1px solid var(--accent); color: var(--accent); background: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
-  button.btn.solid { background: var(--accent); color: #fff; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 6px; }
-  .q { border: 1px solid var(--line); border-radius: 8px; text-align: center; padding: 6px 0; cursor: pointer; font-weight: 600; user-select: none; background: var(--card); }
-  .q.feito { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .q.duvida { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
-  .q.hl { outline: 2px solid var(--accent); outline-offset: 1px; }
-  .progress { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; margin: 6px 0; }
-  .progress > div { height: 100%; background: var(--accent); }
-  .lesson { cursor: pointer; }
-  .lesson.past { opacity: .55; }
-  .lesson.has::after { content: "material pronto"; font-size: 11px; font-weight: 600; color: var(--accent); margin-left: 6px; }
-  .empty { text-align: center; color: var(--muted); padding: 40px 0; }
-  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 14px; cursor: pointer; background: var(--card); }
-  .chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--text); font: 15px/1.55 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+h1, h2, h3, h4 { margin: 0; line-height: 1.25; letter-spacing: -0.01em; }
+.tint { background: color-mix(in srgb, var(--c, #64748B) 12%, var(--surface)); }
+
+/* ---------- Layout ---------- */
+.app { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+.side { position: sticky; top: 0; height: 100vh; padding: 20px 14px; border-right: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; gap: 4px; }
+.brand { display: flex; align-items: center; gap: 10px; padding: 4px 10px 18px; font-weight: 700; }
+.brand .logo { width: 30px; height: 30px; border-radius: 9px; background: var(--ink); color: var(--on-ink); display: grid; place-items: center; font-size: 13px; }
+.brand small { display: block; font-weight: 500; color: var(--muted); font-size: 12px; }
+.navlink { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: var(--text-2); font-weight: 500; }
+.navlink svg { width: 20px; height: 20px; flex: none; }
+.navlink:hover { background: var(--surface-2); }
+.navlink.on { background: var(--surface-2); color: var(--text); font-weight: 600; }
+.side .disc-mini { margin-top: 18px; padding: 0 10px; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.side .disc-link { display: flex; align-items: center; gap: 10px; padding: 7px 12px; border-radius: 10px; text-decoration: none; color: var(--text-2); font-size: 14px; }
+.side .disc-link:hover { background: var(--surface-2); }
+.side .disc-link.on { background: var(--surface-2); color: var(--text); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
+.side-foot { margin-top: auto; }
+main { min-width: 0; }
+.topbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 10px; padding: 12px 28px; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid transparent; }
+.topbar .crumb { flex: 1; min-width: 0; font-size: 14px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar .crumb a { text-decoration: none; color: var(--text-2); }
+.page { max-width: 980px; margin: 0 auto; padding: 8px 28px 48px; }
+.bottomnav { display: none; }
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: 1fr; }
+  .side { display: none; }
+  .topbar { padding: 10px 16px; padding-top: max(10px, env(safe-area-inset-top)); }
+  .page { padding: 4px 16px calc(var(--nav-h) + 28px + env(safe-area-inset-bottom)); }
+  .bottomnav { display: flex; position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; height: calc(var(--nav-h) + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
+  .bottomnav a { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: var(--muted); font-size: 11px; font-weight: 600; }
+  .bottomnav a svg { width: 22px; height: 22px; }
+  .bottomnav a.on { color: var(--text); }
+}
+
+/* ---------- Componentes ---------- */
+.hero-title { font-size: 28px; font-weight: 700; margin: 6px 0 2px; }
+.eyebrow { font-size: 13px; color: var(--muted); font-weight: 500; }
+.eyebrow::first-letter, .day-head::first-letter { text-transform: uppercase; }
+.section { margin-top: 28px; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.section-head h2 { font-size: 17px; font-weight: 650; }
+.section-head a, .link-btn { font-size: 13px; color: var(--text-2); text-decoration: none; font-weight: 500; background: none; border: 0; cursor: pointer; padding: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+.card.pad { padding: 16px 18px; }
+.muted { color: var(--muted); } .t2 { color: var(--text-2); } .small { font-size: 13px; } .tiny { font-size: 12px; }
+.stack > * + * { margin-top: 10px; }
+.row { display: flex; align-items: center; gap: 10px; } .row.wrap { flex-wrap: wrap; } .grow { flex: 1; min-width: 0; }
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--surface-2); color: var(--text-2); white-space: nowrap; }
+.chip.c { background: color-mix(in srgb, var(--c) 14%, transparent); color: color-mix(in srgb, var(--c) 80%, var(--text)); }
+.chip.danger { background: var(--danger-soft); color: var(--danger); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.ok { background: var(--ok-soft); color: var(--ok); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 38px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 14px; cursor: pointer; text-decoration: none; }
+.btn:hover { background: var(--surface-2); }
+.btn.primary { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+.btn.primary:hover { opacity: .9; }
+.btn.c { background: var(--c); border-color: var(--c); color: #fff; }
+.btn.sm { height: 32px; padding: 0 11px; font-size: 13px; }
+.btn svg { width: 16px; height: 16px; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px; background: var(--ink); color: var(--on-ink); border: 0; cursor: pointer; flex: none; }
+.sync { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+.sync i { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); display: inline-block; }
+.sync.saving i { background: var(--warn); animation: pulse 1s infinite; }
+.sync.off i { background: var(--danger); }
+@keyframes pulse { 50% { opacity: .3; } }
+.bar { height: 6px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: 99px; background: var(--c, var(--ink)); transition: width .3s; }
+.empty { padding: 28px 18px; text-align: center; color: var(--muted); font-size: 14px; }
+.skeleton { background: linear-gradient(90deg, var(--surface-2), var(--surface-3), var(--surface-2)); background-size: 200% 100%; animation: sk 1.2s infinite; border-radius: var(--r); }
+@keyframes sk { to { background-position: -200% 0; } }
+
+/* Alerta */
+.alert { display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; border-radius: var(--r); background: var(--danger-soft); color: var(--text); border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent); }
+.alert .ic { width: 34px; height: 34px; border-radius: 10px; background: var(--danger); color: #fff; display: grid; place-items: center; flex: none; font-weight: 700; }
+.alert b { color: var(--danger); }
+
+/* Lista de eventos (aulas / prazos) */
+.ev { display: flex; gap: 14px; align-items: center; padding: 12px 14px; text-decoration: none; position: relative; }
+.ev + .ev { border-top: 1px solid var(--line); }
+.ev .when { width: 54px; flex: none; text-align: center; }
+.ev .when b { display: block; font-size: 18px; line-height: 1.1; }
+.ev .when span { font-size: 11px; color: var(--muted); text-transform: uppercase; font-weight: 600; letter-spacing: .04em; }
+.ev .stripe { width: 4px; align-self: stretch; border-radius: 4px; background: var(--c); flex: none; }
+.ev .ttl { font-weight: 600; font-size: 14.5px; line-height: 1.35; }
+.ev .meta { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+a.ev:hover { background: var(--surface-2); }
+.ev .go { color: var(--muted); flex: none; width: 18px; }
+@media (max-width: 520px) { .ev .kind { display: none; } .ev { gap: 10px; padding: 12px; } .ev .when { width: 40px; } }
+.count { min-width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; text-align: center; line-height: 1; flex: none; background: var(--surface-2); }
+.count b { font-size: 17px; display: block; } .count span { font-size: 10px; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+.count.hot { background: var(--danger-soft); color: var(--danger); } .count.hot span { color: var(--danger); }
+.count.warm { background: var(--warn-soft); color: var(--warn); } .count.warm span { color: var(--warn); }
+.check { width: 26px; height: 26px; border-radius: 8px; border: 2px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; flex: none; padding: 0; }
+.check svg { width: 15px; height: 15px; opacity: 0; color: #fff; }
+.check.on { background: var(--ok); border-color: var(--ok); } .check.on svg { opacity: 1; }
+.done-row .ttl { text-decoration: line-through; color: var(--muted); }
+
+/* Disciplinas */
+.dgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.dcard { display: block; text-decoration: none; padding: 16px 18px 18px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); position: relative; overflow: hidden; transition: transform .15s, box-shadow .15s; }
+.dcard:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.dcard::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--c); }
+.dcard h3 { font-size: 16px; margin: 4px 0 2px; }
+.dcard .kv { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; margin-top: 8px; }
+.dcard .kv span:first-child { color: var(--muted); }
+.dhero { border-radius: 20px; padding: 22px 22px 18px; background: linear-gradient(135deg, color-mix(in srgb, var(--c) 18%, var(--surface)), var(--surface) 70%); border: 1px solid var(--line); }
+.dhero h1 { font-size: 26px; margin: 8px 0 4px; }
+.tabs { display: flex; gap: 4px; margin: 16px 0 4px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--line); }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs a { padding: 10px 12px; text-decoration: none; color: var(--muted); font-weight: 600; font-size: 14px; border-bottom: 2px solid transparent; white-space: nowrap; margin-bottom: -1px; }
+.tabs a.on { color: var(--text); border-bottom-color: var(--c, var(--ink)); }
+.info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 700px) { .info-grid { grid-template-columns: 1fr; } }
+.info h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 650; margin-bottom: 8px; }
+.callout { border-left: 3px solid var(--c, var(--ink)); padding: 10px 14px; background: color-mix(in srgb, var(--c, #888) 8%, var(--surface)); border-radius: 0 10px 10px 0; }
+
+/* Markdown */
+.md p { margin: 6px 0; } .md ul, .md ol { padding-left: 20px; margin: 6px 0; } .md li { margin: 3px 0; }
+.md h3 { font-size: 15px; margin: 18px 0 6px; } .md h3:first-child { margin-top: 2px; }
+.md blockquote { margin: 8px 0; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); border: 0; }
+.md code { background: var(--surface-2); padding: 1px 5px; border-radius: 5px; font-size: .92em; }
+.md details { margin-top: 10px; }
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+.katex { font-size: 1.05em; }
+
+/* Aula */
+.steps { position: sticky; top: 58px; z-index: 10; display: flex; gap: 6px; padding: 6px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); margin: 16px 0; }
+.steps a { flex: 1; text-align: center; padding: 8px 6px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 13.5px; color: var(--text-2); white-space: nowrap; }
+.steps a.on { background: var(--c); color: #fff; }
+.steps a .n { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; margin-right: 6px; background: var(--surface-3); color: var(--text-2); }
+.steps a.on .n { background: rgba(255,255,255,.25); color: #fff; }
+.steps a.on .lbl-long { color: rgba(255,255,255,.8) !important; }
+.steps a.done .n { background: var(--ok); color: #fff; }
+@media (max-width: 520px) { .steps a .lbl-long { display: none; } }
+.ex { padding: 16px 18px; }
+.ex + .ex { border-top: 1px solid var(--line); }
+.ex .num { display: inline-grid; place-items: center; min-width: 30px; height: 26px; padding: 0 8px; border-radius: 8px; font-weight: 700; font-size: 12.5px; background: color-mix(in srgb, var(--c) 14%, transparent); color: color-mix(in srgb, var(--c) 85%, var(--text)); }
+.ex .gab { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--ok-soft); }
+.ex .gab .tip { margin-top: 8px; padding-top: 8px; border-top: 1px dashed color-mix(in srgb, var(--ok) 40%, transparent); font-size: 13.5px; }
+.selfcheck { display: flex; gap: 8px; margin-top: 10px; }
+.selfcheck button { flex: 1; height: 36px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; cursor: pointer; font-size: 13.5px; }
+.selfcheck button.on.acertei { background: var(--ok); border-color: var(--ok); color: #fff; }
+.selfcheck button.on.errei { background: var(--danger); border-color: var(--danger); color: #fff; }
+.block-head { display: flex; align-items: center; gap: 10px; padding: 14px 18px 4px; }
+.block-head h3 { font-size: 15px; }
+.prompt { white-space: pre-wrap; font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--surface-2); padding: 14px; border-radius: 12px; max-height: 360px; overflow: auto; margin: 0; }
+
+/* Questões */
+.qgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 6px; }
+.q { height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 650; font-size: 14px; cursor: pointer; display: grid; place-items: center; user-select: none; }
+.q.feito { background: var(--ok); border-color: var(--ok); color: #fff; }
+.q.duvida { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+.q.next { box-shadow: 0 0 0 2px var(--c) inset; }
+.people { display: grid; gap: 8px; }
+.people .p { display: grid; grid-template-columns: 70px 1fr 44px; align-items: center; gap: 10px; font-size: 13px; }
+
+/* Agenda */
+.week-nav { display: flex; align-items: center; gap: 8px; }
+.iconbtn { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; }
+.iconbtn svg { width: 18px; height: 18px; }
+.day { margin-top: 16px; }
+.day-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; font-weight: 650; }
+.day-head .chip { text-transform: none; }
+.day.today .day-head { color: var(--text); }
+.filter { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.filter::-webkit-scrollbar { display: none; }
+.filter button { height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.filter button.on { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+
+/* Modal */
+.modal { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: rgba(15,23,42,.45); backdrop-filter: blur(4px); }
+.modal .box { width: 100%; max-width: 380px; padding: 22px; border-radius: 20px; background: var(--surface); box-shadow: var(--shadow-lg); }
+.who { display: grid; gap: 10px; margin-top: 16px; }
+.who button { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 600; font-size: 15px; text-align: left; }
+.who button:hover { background: var(--surface-2); }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--nav-h) + 20px + env(safe-area-inset-bottom)); z-index: 60; background: var(--ink); color: var(--on-ink); padding: 10px 16px; border-radius: 12px; font-size: 14px; font-weight: 500; box-shadow: var(--shadow-lg); }
+@media (min-width: 861px) { .toast { bottom: 24px; } }
+.fade { animation: fade .18s ease-out; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px); } }
 </style>
 </head>
 <body>
-<header>
-  <div class="bar">
-    <h1>Estudo UFABC 2026.3</h1>
-    <label class="muted">Eu sou <select id="pessoa"></select></label>
-  </div>
-  <nav id="tabs">
-    <button data-v="hoje" class="on">Próxima aula</button>
-    <button data-v="aulas">Aulas</button>
-    <button data-v="prazos">Prazos</button>
-    <button data-v="listas">Listas</button>
-    <button data-v="disc">Disciplinas</button>
-  </nav>
-</header>
-<main id="app"><div class="empty">Carregando…</div></main>
+<div class="app">
+  <aside class="side" id="side"></aside>
+  <main>
+    <div class="topbar"><div class="crumb" id="crumb"></div><span class="sync" id="sync"><i></i><span>…</span></span><button class="avatar" id="me" title="Trocar pessoa">?</button></div>
+    <div class="page" id="page"><div class="skeleton" style="height:120px;margin-top:20px"></div><div class="skeleton" style="height:240px;margin-top:16px"></div></div>
+  </main>
+</div>
+<nav class="bottomnav" id="bottomnav"></nav>
+<div id="overlay"></div>
 
 <script>
-let D = null, view = 'hoje', aulaAberta = null, filtroDisc = '';
+// ================= Config & util =================
+const API_URL = 'https://script.google.com/macros/s/AKfycbyle7ahYFEoJI1T7GMXuSwWQ_ONjCFcPyGK9yYVUn4Ok2jPjJNWgIzO1-48Or-4Oi1K/exec';
+const NO_APPS_SCRIPT = !(window.google && google.script && google.script.run);
 const $ = s => document.querySelector(s);
-const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
-                set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
-const DIAS = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
+const ICON = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
+  cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20"/></svg>',
+  flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-1.5 4L16 12H5"/></svg>',
+  chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>',
+  left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  ext: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>',
+};
+const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+const MES_L = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+const DIA = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+const DIA_L = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+const toD = iso => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d); };
+const toIso = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const addDays = (iso, n) => { const d = toD(iso); d.setDate(d.getDate() + n); return toIso(d); };
+const diff = (a, b) => Math.round((toD(b) - toD(a)) / 86400000);
+const fmtShort = iso => { const d = toD(iso); return DIA[d.getDay()] + ', ' + d.getDate() + ' ' + MES[d.getMonth()]; };
+const fmtLong = iso => { const d = toD(iso); const s = DIA_L[d.getDay()] + ', ' + d.getDate() + ' de ' + MES_L[d.getMonth()]; return s[0].toUpperCase() + s.slice(1); };
+const monday = iso => { const d = toD(iso); const w = (d.getDay() + 6) % 7; d.setDate(d.getDate() - w); return toIso(d); };
+const relDay = n => n === 0 ? 'hoje' : n === 1 ? 'amanhã' : n === -1 ? 'ontem' : n > 0 ? 'em ' + n + ' dias' : 'há ' + (-n) + ' dias';
 
-function fmtData(iso) {
-  if (!iso) return '';
-  const [y, m, d] = iso.split('-').map(Number);
-  const dt = new Date(Date.UTC(y, m - 1, d));
-  return DIAS[dt.getUTCDay()] + ' ' + String(d).padStart(2, '0') + '/' + String(m).padStart(2, '0');
+// ================= Estado =================
+let D = null;
+const S = { pessoa: store.get('pessoa', null), pend: store.get('pend:v1', {}), syncState: 'ok', hideDone: store.get('hideDone', false) };
+const TODAY = () => (D && D.hoje) || toIso(new Date());
+
+// ================= Dados derivados =================
+const disc = sig => D._disc[sig] || { sigla: sig, nome: sig, nome_curto: sig, cor: '#64748B' };
+const cvar = sig => `--c:${esc(disc(sig).cor || '#64748B')}`;
+function index() {
+  D._disc = {}; D.Disciplinas.sort((a, b) => (+a.ordem || 9) - (+b.ordem || 9)).forEach(d => { D._disc[d.sigla] = d; });
+  D._cont = {}; D.Conteudo.forEach(c => { D._cont[c.aula_id] = c; });
+  D._aulas = D.Aulas.slice().sort((a, b) => (a.data + a.horario).localeCompare(b.data + b.horario));
+  D._prog = {}; D.Progresso.forEach(p => { D._prog[p.pessoa_id + '|' + p.item_id] = p.status; });
 }
-function dias(iso) {
-  const a = D.hoje.split('-').map(Number), b = iso.split('-').map(Number);
-  return Math.round((Date.UTC(b[0], b[1]-1, b[2]) - Date.UTC(a[0], a[1]-1, a[2])) / 86400000);
+function status(item, pessoa) {
+  pessoa = pessoa || S.pessoa;
+  const k = pessoa + '|' + item;
+  if (S.pend[k] !== undefined) return S.pend[k];
+  return (D && D._prog[k]) || '';
+}
+function prazos() {
+  const out = [];
+  D.Avaliacoes.forEach(a => out.push({ data: a.data, sig: a.disciplina, kind: 'prova', titulo: a.tipo, sub: a.conteudo, id: a.id, hora: a.horario }));
+  D.Listas.forEach(l => { if (l.prazo) out.push({ data: l.prazo, sig: l.disciplina, kind: 'entrega', titulo: l.titulo, sub: l.formato, id: l.id, link: l.link, check: !hasQuestions(l.id) }); });
+  D.Atividades.forEach(t => { if (t.prazo) out.push({ data: t.prazo, sig: t.disciplina, kind: 'entrega', titulo: t.titulo, sub: t.obs, id: t.id, link: t.link, check: true }); });
+  return out.sort((a, b) => a.data.localeCompare(b.data) || (a.kind === 'prova' ? -1 : 1));
+}
+const hasQuestions = listaId => D.ListaQuestoes.some(q => q.lista_id === listaId);
+function isDone(p) {
+  if (p.kind === 'prova') return p.data < TODAY();
+  if (p.check) return status(p.id) === 'feito';
+  const qs = D.ListaQuestoes.filter(q => q.lista_id === p.id);
+  return qs.length > 0 && qs.every(q => status(q.id) === 'feito');
+}
+function discItems(sig) {
+  const items = [];
+  D.Listas.filter(l => l.disciplina === sig).forEach(l => {
+    const qs = D.ListaQuestoes.filter(q => q.lista_id === l.id);
+    if (qs.length) qs.forEach(q => items.push(q.id)); else items.push(l.id);
+  });
+  D.Atividades.filter(t => t.disciplina === sig).forEach(t => items.push(t.id));
+  return items;
+}
+function pct(items, pessoa) { if (!items.length) return null; return Math.round(100 * items.filter(i => status(i, pessoa) === 'feito').length / items.length); }
+// Agrupa provas que caem numa janela de 7 dias (ex.: 23, 27 e 29/10 = mesma "semana de provas").
+function criticalWeeks() {
+  const xs = D.Avaliacoes.filter(a => !/sub|rec/i.test(a.tipo)).sort((a, b) => a.data.localeCompare(b.data));
+  const groups = [];
+  xs.forEach(a => {
+    const g = groups[groups.length - 1];
+    if (g && diff(g[0].data, a.data) <= 7) g.push(a); else groups.push([a]);
+  });
+  return groups.filter(g => g.length >= 2 && g[g.length - 1].data >= TODAY());
 }
 
-// Markdown com LaTeX: protege $...$ antes do marked, depois o KaTeX renderiza.
+// ================= Markdown + KaTeX =================
 function md(src) {
   if (!src) return '';
   const math = [];
-  let s = String(src).replace(/\$\$([\s\S]+?)\$\$/g, (m) => { math.push(m); return '@@M' + (math.length - 1) + '@@'; })
-                     .replace(/\$([^\$\n]+?)\$/g, (m) => { math.push(m); return '@@M' + (math.length - 1) + '@@'; });
+  let s = String(src).replace(/\$\$([\s\S]+?)\$\$/g, m => { math.push(m); return '@@M' + (math.length - 1) + '@@'; })
+    .replace(/\$([^\$\n]+?)\$/g, m => { math.push(m); return '@@M' + (math.length - 1) + '@@'; });
   s = marked.parse(s);
   return s.replace(/@@M(\d+)@@/g, (_, i) => esc(math[+i]));
 }
 function renderMath(el) {
-  if (window.renderMathInElement) renderMathInElement(el, { delimiters: [
-    { left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }], throwOnError: false });
+  if (window.renderMathInElement) renderMathInElement(el, { delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }], throwOnError: false });
+  else setTimeout(() => renderMath(el), 150);
 }
 
-function disc(sigla) { return (D.Disciplinas.find(x => x.sigla === sigla) || {}).nome || sigla; }
-function conteudo(aulaId) { return D.Conteudo.find(c => c.aula_id === aulaId); }
-function aulasFiltradas() {
-  return D.Aulas.filter(a => !filtroDisc || a.disciplina === filtroDisc).sort((a, b) => (a.data + a.horario).localeCompare(b.data + b.horario));
+// ================= Sync (fila local + lote) =================
+let flushTimer = null, flushing = false;
+function setStatus(item, value) {
+  const k = S.pessoa + '|' + item;
+  S.pend[k] = value; store.set('pend:v1', S.pend);
+  setSync('saving');
+  clearTimeout(flushTimer); flushTimer = setTimeout(flush, 700);
 }
-function chipsDisc() {
-  const ds = D.Disciplinas.map(d => d.sigla);
-  if (ds.length < 2) return '';
-  return '<div class="chips">' + ['', ...ds].map(s => `<span class="chip ${s === filtroDisc ? 'on' : ''}" data-disc="${esc(s)}">${s ? esc(s) : 'Todas'}</span>`).join('') + '</div>';
+async function flush() {
+  if (flushing) { flushTimer = setTimeout(flush, 500); return; }
+  const entries = Object.entries(S.pend);
+  if (!entries.length) { setSync('ok'); return; }
+  flushing = true;
+  const byPessoa = {};
+  entries.forEach(([k, v]) => { const [p, i] = k.split('|'); (byPessoa[p] = byPessoa[p] || []).push({ item_id: i, status: v }); });
+  try {
+    for (const [p, items] of Object.entries(byPessoa)) {
+      await send(p, items);
+      items.forEach(it => {
+        const k = p + '|' + it.item_id;
+        D._prog[k] = it.status;
+        if (S.pend[k] === it.status) delete S.pend[k];
+      });
+    }
+    store.set('pend:v1', S.pend);
+    setSync(Object.keys(S.pend).length ? 'saving' : 'ok');
+    if (Object.keys(S.pend).length) flushTimer = setTimeout(flush, 300);
+  } catch (e) {
+    setSync('off'); flushTimer = setTimeout(flush, 5000);
+  } finally { flushing = false; }
+}
+function send(pessoa, items) {
+  if (!NO_APPS_SCRIPT) return new Promise((res, rej) => google.script.run.withSuccessHandler(res).withFailureHandler(rej).setProgressBatch(pessoa, items));
+  return fetch(API_URL, { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ action: 'progress', pessoa_id: pessoa, items }) })
+    .then(r => r.json()).then(r => { if (!r.ok) throw new Error(r.error); });
+}
+function setSync(st) {
+  S.syncState = st;
+  const n = Object.keys(S.pend).length;
+  const el = $('#sync');
+  el.className = 'sync ' + (st === 'saving' ? 'saving' : st === 'off' ? 'off' : '');
+  el.querySelector('span').textContent = st === 'saving' ? 'Salvando…' : st === 'off' ? `Sem conexão · ${n} pendente${n > 1 ? 's' : ''}` : 'Salvo';
+}
+window.addEventListener('online', () => flush());
+window.addEventListener('beforeunload', e => { if (Object.keys(S.pend).length) { flush(); } });
+
+// ================= Carga =================
+function load() {
+  const cached = store.get('data:v2', null);
+  if (cached) { D = cached; index(); boot(); }
+  const ok = json => {
+    const fresh = typeof json === 'string' ? JSON.parse(json) : json;
+    store.set('data:v2', fresh);
+    const first = !D; D = fresh; index();
+    if (first) boot(); else render();
+    if (Object.keys(S.pend).length) flush(); else setSync('ok');
+  };
+  const fail = err => { if (!D) $('#page').innerHTML = `<div class="empty">Não consegui carregar os dados (${esc(err && err.message || err)}).<br><button class="btn" onclick="location.reload()">Tentar de novo</button></div>`; else setSync('off'); };
+  if (NO_APPS_SCRIPT) fetch(API_URL + '?api=data', { credentials: 'omit' }).then(r => r.json()).then(ok).catch(fail);
+  else google.script.run.withSuccessHandler(ok).withFailureHandler(fail).getData();
+}
+let booted = false;
+function boot() {
+  if (booted) return; booted = true;
+  window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+  if (!S.pessoa || !D.Pessoas.some(p => p.id === S.pessoa)) askWho(); else render();
 }
 
-// ---------- Views ----------
+// ================= Router =================
+function route() {
+  const parts = (location.hash.replace(/^#\/?/, '') || 'hoje').split('/').map(decodeURIComponent);
+  return { name: parts[0], a: parts[1], b: parts[2] };
+}
+function render() {
+  if (!D) return;
+  const r = route();
+  const views = { hoje: vHoje, agenda: vAgenda, disc: r.a ? vDisc : vDiscs, aula: vAula, prazos: vPrazos };
+  const fn = views[r.name] || vHoje;
+  renderChrome(r);
+  const page = $('#page');
+  page.innerHTML = '<div class="fade">' + fn(r) + '</div>';
+  renderMath(page);
+  const me = D.Pessoas.find(p => p.id === S.pessoa);
+  $('#me').textContent = me ? me.nome[0].toUpperCase() : '?';
+  setSync(S.syncState);
+}
+function renderChrome(r) {
+  const nav = [['hoje', 'Hoje', ICON.home], ['agenda', 'Agenda', ICON.cal], ['disc', 'Disciplinas', ICON.book], ['prazos', 'Prazos', ICON.flag]];
+  const active = r.name === 'aula' ? 'disc' : r.name;
+  const links = nav.map(([k, l, ic]) => `<a class="navlink ${active === k ? 'on' : ''}" href="#/${k}">${ic}<span>${l}</span></a>`).join('');
+  const discs = D.Disciplinas.map(d => `<a class="disc-link ${(r.name === 'disc' && r.a === d.sigla) || (r.name === 'aula' && r.a && r.a.startsWith(d.sigla + '-')) ? 'on' : ''}" href="#/disc/${esc(d.sigla)}" style="${cvar(d.sigla)}"><span class="dot"></span>${esc(d.nome_curto || d.nome)}</a>`).join('');
+  $('#side').innerHTML = `<div class="brand"><div class="logo">UF</div><div>Estudo UFABC<small>2026.3 · BC&amp;T</small></div></div>${links}<div class="disc-mini">Disciplinas</div>${discs}
+    <div class="side-foot tiny muted" style="padding:0 10px">Dados da planilha central · atualiza sozinho</div>`;
+  $('#bottomnav').innerHTML = nav.map(([k, l, ic]) => `<a class="${active === k ? 'on' : ''}" href="#/${k}">${ic}<span>${l}</span></a>`).join('');
+  let crumb = '';
+  if (r.name === 'disc' && r.a) crumb = `<a href="#/disc">Disciplinas</a> / ${esc(disc(r.a).nome_curto)}`;
+  else if (r.name === 'aula') { const a = D.Aulas.find(x => x.id === r.a); if (a) crumb = `<a href="#/disc/${esc(a.disciplina)}">${esc(disc(a.disciplina).nome_curto)}</a> / Aula ${esc(a.num)}`; }
+  else crumb = esc(fmtLong(TODAY()));
+  $('#crumb').innerHTML = crumb;
+}
+
+// ================= Componentes =================
+function evAula(a, opts = {}) {
+  const n = diff(TODAY(), a.data);
+  const has = !!D._cont[a.id];
+  const tipo = a.tipo === 'prova' ? '<span class="chip danger">Prova</span>' : a.tipo === 'prática' ? '<span class="chip">Prática</span>' : '';
+  const when = opts.time ? `<div class="when"><b>${esc((a.horario || '').slice(0, 5))}</b><span>${esc((a.horario || '').slice(6, 11))}</span></div>`
+    : `<div class="when"><b>${toD(a.data).getDate()}</b><span>${DIA[toD(a.data).getDay()]}</span></div>`;
+  return `<a class="ev" href="#/aula/${esc(a.id)}" style="${cvar(a.disciplina)}">${when}<span class="stripe"></span>
+    <div class="grow"><div class="ttl">${esc(a.tema)}</div>
+    <div class="meta">${esc(disc(a.disciplina).nome_curto)} · ${opts.time ? esc(a.sala) : esc(a.horario) + (opts.rel ? ' · ' + relDay(n) : '')}</div>
+    ${tipo || has ? `<div class="row wrap" style="gap:6px;margin-top:6px">${tipo}${has ? '<span class="chip ok">Material pronto</span>' : ''}</div>` : ''}</div>
+    <span class="go">${ICON.chev}</span></a>`;
+}
+function evPrazo(p) {
+  const n = diff(TODAY(), p.data);
+  const done = isDone(p);
+  const cls = n < 0 ? '' : n <= 3 ? 'hot' : n <= 7 ? 'warm' : '';
+  const box = p.check ? `<button class="check ${status(p.id) === 'feito' ? 'on' : ''}" data-toggle="${esc(p.id)}" title="Marcar como feito">${ICON.check}</button>` : '';
+  const kindChip = p.kind === 'prova' ? '<span class="chip danger">Prova</span>' : '<span class="chip warn">Entrega</span>';
+  const target = p.kind === 'prova' ? `#/disc/${esc(p.sig)}/avaliacao` : `#/disc/${esc(p.sig)}/listas`;
+  return `<div class="ev ${done && p.kind !== 'prova' ? 'done-row' : ''}" style="${cvar(p.sig)}">
+    <div class="count ${done ? '' : cls}"><div><b>${n < 0 ? '–' : n}</b><span>${n === 0 ? 'hoje' : n === 1 ? 'dia' : n < 0 ? 'passou' : 'dias'}</span></div></div>
+    <span class="stripe"></span>
+    <a class="grow" href="${target}" style="text-decoration:none"><div class="ttl">${esc(p.titulo)}</div>
+    <div class="meta">${esc(disc(p.sig).nome_curto)} · ${esc(fmtShort(p.data))}${p.hora ? ' · ' + esc(p.hora) : ''}${p.sub ? ' · ' + esc(p.sub) : ''}</div></a>
+    <span class="kind">${kindChip}</span>${box}</div>`;
+}
+function progressPeople(items, c) {
+  return `<div class="people">${D.Pessoas.map(p => {
+    const v = pct(items, p.id) || 0;
+    return `<div class="p"><span class="${p.id === S.pessoa ? '' : 't2'}">${esc(p.nome)}${p.id === S.pessoa ? ' ·' : ''}</span><div class="bar" style="--c:${c}"><i style="width:${v}%"></i></div><span class="t2" style="text-align:right">${v}%</span></div>`;
+  }).join('')}</div>`;
+}
+
+// ================= Views =================
 function vHoje() {
-  const futuras = aulasFiltradas().filter(a => a.data >= D.hoje);
-  if (!futuras.length) return '<div class="empty">Nenhuma aula futura cadastrada.</div>';
-  // próxima aula de cada disciplina
-  const prox = {};
-  futuras.forEach(a => { if (!prox[a.disciplina]) prox[a.disciplina] = a; });
-  const lista = Object.values(prox).sort((a, b) => a.data.localeCompare(b.data));
-  let h = chipsDisc() + blocoPrazos(3);
-  lista.forEach(a => { h += aulaDetalhe(a); });
+  const t = TODAY();
+  const me = D.Pessoas.find(p => p.id === S.pessoa) || {};
+  const hour = new Date().getHours();
+  const hi = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
+  let h = `<div class="eyebrow">${esc(fmtLong(t))}</div><h1 class="hero-title">${hi}, ${esc(me.nome || '')}</h1>`;
+
+  // alerta de semana crítica
+  criticalWeeks().slice(0, 1).forEach(xs => {
+    const ini = xs[0].data, fim = xs[xs.length - 1].data;
+    const list = xs.map(a => `<span class="chip c" style="${cvar(a.disciplina)}">${esc(disc(a.disciplina).nome_curto)} · ${esc(a.tipo)} · ${esc(fmtShort(a.data))}</span>`).join(' ');
+    h += `<div class="alert section"><div class="ic">!</div><div><div><b>Semana de provas: ${toD(ini).getDate()}/${toD(ini).getMonth() + 1} a ${toD(fim).getDate()}/${toD(fim).getMonth() + 1}</b> · ${xs.length} provas em ${diff(ini, fim) + 1} dias. Começa ${relDay(diff(t, ini))}.</div>
+      <div class="row wrap" style="gap:6px;margin-top:8px">${list}</div></div></div>`;
+  });
+
+  // aulas de hoje / próximas
+  const hoje = D._aulas.filter(a => a.data === t);
+  h += `<div class="section"><div class="section-head"><h2>${hoje.length ? 'Aulas de hoje' : 'Próximas aulas'}</h2><a href="#/agenda">Ver agenda →</a></div>`;
+  if (hoje.length) h += `<div class="card">${hoje.map(a => evAula(a, { time: true })).join('')}</div>`;
+  else {
+    const prox = D._aulas.filter(a => a.data > t).slice(0, 5);
+    h += prox.length ? `<div class="card">${prox.map(a => evAula(a, { rel: true })).join('')}</div>` : '<div class="card empty">Nenhuma aula futura.</div>';
+  }
+  h += '</div>';
+
+  // estudar agora: próximas aulas com material
+  const comMat = D._aulas.filter(a => a.data >= t && D._cont[a.id]).slice(0, 3);
+  if (comMat.length) {
+    h += `<div class="section"><div class="section-head"><h2>Preparar antes da aula</h2></div><div class="dgrid">${comMat.map(a => {
+      const c = D._cont[a.id]; let exs = []; try { exs = JSON.parse(c.exercicios_json || '[]'); } catch (e) {}
+      const ids = exs.map((x, i) => exId(a.id, exs, i));
+      const feitos = ids.filter(i => status(i)).length + (status(a.id + '-PRE') ? 1 : 0);
+      const total = ids.length + 1;
+      return `<a class="dcard" href="#/aula/${esc(a.id)}" style="${cvar(a.disciplina)}"><span class="chip c">${esc(disc(a.disciplina).nome_curto)} · ${esc(fmtShort(a.data))}</span>
+        <h3>${esc(a.tema)}</h3><div class="small muted">Pré-aula · ${exs.length} exercícios · prompt de IA</div>
+        <div class="bar" style="margin-top:12px"><i style="width:${Math.round(100 * feitos / total)}%"></i></div><div class="tiny muted" style="margin-top:6px">${feitos} de ${total} etapas</div></a>`;
+    }).join('')}</div></div>`;
+  }
+
+  // prazos
+  const ps = prazos().filter(p => p.data >= t && !(p.check && isDone(p))).slice(0, 6);
+  h += `<div class="section"><div class="section-head"><h2>Vence primeiro</h2><a href="#/prazos">Todos os prazos →</a></div>
+    ${ps.length ? `<div class="card">${ps.map(evPrazo).join('')}</div>` : '<div class="card empty">Nada pendente. 🎉</div>'}</div>`;
+
+  // disciplinas
+  h += `<div class="section"><div class="section-head"><h2>Disciplinas</h2><a href="#/disc">Ver todas →</a></div>${discGrid()}</div>`;
   return h;
 }
 
-function aulaDetalhe(a) {
-  const c = conteudo(a.id);
-  const quando = a.data === D.hoje ? 'HOJE' : (dias(a.data) === 1 ? 'amanhã' : 'em ' + dias(a.data) + ' dias');
-  let h = `<div class="card"><div class="row"><span class="pill">${esc(a.disciplina)}</span><span class="muted">${fmtData(a.data)} · ${esc(a.horario)} · ${esc(a.sala)} · <b>${quando}</b></span></div>
-    <h2>Aula ${esc(a.num)} — ${esc(a.tema)}</h2>`;
-  if (a.topicos) h += `<div class="muted">${esc(a.topicos)}</div>`;
-  const links = [];
-  if (a.link_material) links.push(`<a href="${esc(a.link_material)}" target="_blank">${esc(a.material_prof || 'Material do professor')}</a>`);
-  if (a.questoes_lista) links.push('Lista: ' + esc(a.questoes_lista));
-  if (a.cai_em) links.push('Cai na <b>' + esc(a.cai_em) + '</b>');
-  if (links.length) h += `<p class="muted">${links.join(' · ')}</p>`;
-  if (!c) return h + '<p class="muted"><i>Material desta aula ainda não foi gerado.</i></p></div>';
+function discGrid() {
+  const t = TODAY();
+  return `<div class="dgrid">${D.Disciplinas.map(d => {
+    const next = D._aulas.find(a => a.disciplina === d.sigla && a.data >= t && a.tipo !== 'prova');
+    const prova = D.Avaliacoes.filter(a => a.disciplina === d.sigla && a.data >= t && !/sub|rec/i.test(a.tipo)).sort((a, b) => a.data.localeCompare(b.data))[0];
+    const v = pct(discItems(d.sigla));
+    return `<a class="dcard" href="#/disc/${esc(d.sigla)}" style="${cvar(d.sigla)}">
+      <div class="tiny muted">${esc(d.codigo || '')}${d.turma ? ' · ' + esc(d.turma) : ''}</div><h3>${esc(d.nome_curto || d.nome)}</h3>
+      <div class="small t2">${esc((d.professor || '').split('(')[0].split('·')[0].trim())}</div>
+      <div class="kv"><span>Próxima aula</span><span>${next ? esc(fmtShort(next.data)) : '—'}</span></div>
+      <div class="kv"><span>Próxima prova</span><span>${prova ? `<b>${esc(prova.tipo)}</b> ${relDay(diff(t, prova.data))}` : '—'}</span></div>
+      ${v === null ? '' : `<div class="kv"><span>Listas e tarefas</span><span>${v}%</span></div><div class="bar" style="margin-top:6px"><i style="width:${v}%"></i></div>`}
+    </a>`;
+  }).join('')}</div>`;
+}
 
-  h += `<details open><summary>1. Pré-aula (10 min)</summary><div class="md">${md(c.leitura_pre)}</div></details>`;
-  let exs = [];
-  try { exs = JSON.parse(c.exercicios_json || '[]'); } catch (e) {}
-  const nomes = { A: 'Bloco A — Aquecimento', B: 'Bloco B — Notação', C: 'Bloco C — Modelo de prova' };
-  h += '<details open><summary>2. Exercícios para a aula</summary>';
-  ['A', 'B', 'C'].forEach(b => {
-    const xs = exs.filter(x => x.bloco === b);
-    if (!xs.length) return;
-    h += `<h3>${nomes[b]}</h3>`;
-    xs.forEach((x, i) => {
-      h += `<div class="ex ${b}"><div class="md"><b>${b}${i + 1}.</b> ${md(x.enunciado)}</div>
-        ${x.fonte ? `<div class="muted">Fonte: ${esc(x.fonte)}</div>` : ''}
-        <details><summary>Gabarito comentado</summary><div class="gab md">${md(x.gabarito)}${x.comentario ? md('**Erro comum / dica:** ' + x.comentario) : ''}</div></details></div>`;
-    });
-  });
-  h += '</details>';
-  h += `<details><summary>3. Prompt para estudar com IA</summary>
-    <p class="muted">Cole no Claude, ChatGPT ou Gemini (versão grátis serve).</p>
-    <pre class="prompt" id="p-${esc(a.id)}">${esc(c.prompt_ia)}</pre>
-    <button class="btn solid" data-copy="p-${esc(a.id)}">Copiar prompt</button></details>`;
+function vDiscs() {
+  return `<h1 class="hero-title" style="margin-top:8px">Disciplinas</h1><p class="t2" style="margin:4px 0 0">5 disciplinas em 2026.3. Toque numa para ver objeto de estudo, aulas, listas e avaliação.</p>
+    <div class="section">${discGrid()}</div>`;
+}
+
+function vDisc(r) {
+  const d = disc(r.a); const tab = r.b || 'geral'; const t = TODAY();
+  const tabs = [['geral', 'Visão geral'], ['aulas', 'Aulas'], ['listas', 'Listas e tarefas'], ['avaliacao', 'Avaliação']];
+  let h = `<div style="${cvar(d.sigla)}"><div class="dhero"><span class="chip c">${esc(d.codigo || d.sigla)}${d.turma ? ' · ' + esc(d.turma) : ''}</span>
+    <h1>${esc(d.nome)}</h1><div class="t2 small">${esc(d.professor)}</div>
+    <div class="row wrap small t2" style="margin-top:10px;gap:14px"><span>🕘 ${esc(d.horarios)}</span><span>📍 ${esc(d.sala)}</span></div>
+    <div class="row wrap" style="margin-top:14px;gap:8px">${[['Material do professor', d.link_material], ['Plano de ensino', d.link_plano], ['Moodle', d.link_moodle && d.link_moodle !== d.link_material ? d.link_moodle : ''], ['SIGAA', d.link_sigaa]]
+      .filter(x => x[1]).map((x, i) => `<a class="btn sm ${i === 0 ? 'c' : ''}" href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])} ${ICON.ext}</a>`).join('')}</div></div>
+    <nav class="tabs">${tabs.map(([k, l]) => `<a class="${tab === k ? 'on' : ''}" href="#/disc/${esc(d.sigla)}/${k}">${l}</a>`).join('')}</nav>`;
+
+  if (tab === 'geral') {
+    h += `<div class="section stack">
+      ${d.alertas ? `<div class="alert"><div class="ic">!</div><div class="small">${esc(d.alertas)}</div></div>` : ''}
+      <div class="card pad info"><h3>Objeto de estudo</h3><div class="md" style="font-size:16px">${md(d.objeto_estudo || '—')}</div></div>
+      <div class="info-grid">
+        <div class="card pad info"><h3>O que a disciplina busca</h3><div class="md">${md(d.objetivos || '—')}</div></div>
+        <div class="card pad info"><h3>Por que importa</h3><div class="md">${md(d.por_que_importa || '—')}</div>
+          ${d.atendimento ? `<h3 style="margin-top:16px">Atendimento</h3><div class="small t2">${esc(d.atendimento)}</div>` : ''}
+          ${d.email_prof ? `<h3 style="margin-top:16px">Contato</h3><div class="small t2">${esc(d.email_prof)}</div>` : ''}</div>
+      </div>
+      <div class="card pad info"><h3>Como é cobrado</h3><div class="md">${md(d.formato_prova || '—')}</div></div>
+      <details class="card pad info"><summary><b>Ementa oficial</b></summary><div class="md t2" style="margin-top:8px">${md(d.ementa || '—')}</div></details>
+      ${d.obs ? `<div class="callout small">${md(d.obs)}</div>` : ''}</div>`;
+  } else if (tab === 'aulas') {
+    const aulas = D._aulas.filter(a => a.disciplina === d.sigla);
+    const fut = aulas.filter(a => a.data >= t), pas = aulas.filter(a => a.data < t);
+    h += `<div class="section"><div class="section-head"><h2>Próximas</h2><span class="small muted">${fut.length} aulas</span></div>
+      ${fut.length ? `<div class="card">${fut.map(a => evAula(a, { rel: true })).join('')}</div>` : '<div class="card empty">Sem aulas futuras.</div>'}</div>`;
+    if (pas.length) h += `<div class="section"><details><summary class="section-head" style="cursor:pointer"><h2 style="display:inline">Já aconteceram (${pas.length})</h2></summary>
+      <div class="card" style="margin-top:10px;opacity:.8">${pas.reverse().map(a => evAula(a)).join('')}</div></details></div>`;
+  } else if (tab === 'listas') {
+    h += vListasDisc(d);
+  } else if (tab === 'avaliacao') {
+    const avs = D.Avaliacoes.filter(a => a.disciplina === d.sigla).sort((a, b) => a.data.localeCompare(b.data));
+    h += `<div class="section"><div class="section-head"><h2>Datas</h2></div><div class="card">${avs.map(a => evPrazo({ data: a.data, sig: a.disciplina, kind: 'prova', titulo: a.tipo + (a.peso ? ' · ' + a.peso : ''), sub: a.conteudo + (a.obs ? ' — ' + a.obs : ''), hora: a.horario, id: a.id })).join('')}</div></div>
+      <div class="section info-grid"><div class="card pad info"><h3>Critério de avaliação</h3><div class="md">${md(d.criterio_avaliacao)}</div></div>
+      <div class="card pad info"><h3>Como é cobrado</h3><div class="md">${md(d.formato_prova)}</div><h3 style="margin-top:16px">Bibliografia</h3><div class="md small">${md(d.bibliografia)}</div></div></div>`;
+  }
   return h + '</div>';
 }
 
-function vAulas() {
-  if (aulaAberta) {
-    const a = D.Aulas.find(x => x.id === aulaAberta);
-    return '<p><button class="btn" data-back="1">← Todas as aulas</button></p>' + (a ? aulaDetalhe(a) : '');
-  }
-  let h = chipsDisc();
-  aulasFiltradas().forEach(a => {
-    const past = a.data < D.hoje;
-    h += `<div class="card lesson ${past ? 'past' : ''} ${conteudo(a.id) ? 'has' : ''}" data-aula="${esc(a.id)}">
-      <div class="row"><b>${fmtData(a.data)}</b><span class="muted">${esc(a.disciplina)} · aula ${esc(a.num)}</span></div>
-      <div>${esc(a.tema)}</div></div>`;
+function vListasDisc(d) {
+  const t = TODAY();
+  const listas = D.Listas.filter(l => l.disciplina === d.sigla);
+  const ativs = D.Atividades.filter(x => x.disciplina === d.sigla).sort((a, b) => a.prazo.localeCompare(b.prazo));
+  if (!listas.length && !ativs.length) return '<div class="section card empty">Nenhuma lista ou tarefa mapeada ainda.</div>';
+  let h = '';
+  const items = discItems(d.sigla);
+  if (items.length) h += `<div class="section card pad"><div class="section-head"><h2>Progresso do grupo</h2><span class="small muted">${items.length} itens</span></div>${progressPeople(items, d.cor)}</div>`;
+  const nextAula = D._aulas.find(a => a.disciplina === d.sigla && a.data >= t);
+  listas.forEach(l => {
+    const qs = D.ListaQuestoes.filter(q => q.lista_id === l.id).sort((a, b) => +a.numero - +b.numero);
+    const n = l.prazo ? diff(t, l.prazo) : null;
+    h += `<div class="section card pad"><div class="row wrap" style="justify-content:space-between"><div><h2 style="font-size:17px">${esc(l.titulo)}</h2>
+      <div class="small muted" style="margin-top:2px">${esc(l.formato)}${l.peso ? ' · ' + esc(l.peso) : ''}</div></div>
+      <div class="row" style="gap:6px">${l.prazo ? `<span class="chip ${n <= 7 ? 'danger' : 'warn'}">Entrega ${esc(fmtShort(l.prazo))} · ${relDay(n)}</span>` : ''}${l.link ? `<a class="btn sm" href="${esc(l.link)}" target="_blank" rel="noopener">Abrir ${ICON.ext}</a>` : ''}</div></div>
+      ${l.obs ? `<div class="callout small" style="margin-top:12px">${esc(l.obs)}</div>` : ''}`;
+    if (!qs.length) {
+      const on = status(l.id) === 'feito';
+      h += `<div class="row" style="margin-top:14px"><button class="check ${on ? 'on' : ''}" data-toggle="${esc(l.id)}">${ICON.check}</button><span class="small">${on ? 'Feita' : 'Marcar lista como feita'}</span></div></div>`;
+      return;
+    }
+    const mine = qs.filter(q => status(q.id) === 'feito').length, duv = qs.filter(q => status(q.id) === 'duvida').length;
+    h += `<div class="row small t2" style="margin:14px 0 4px;gap:14px"><span><b>${mine}</b>/${qs.length} feitas</span>${duv ? `<span class="chip warn">${duv} com dúvida</span>` : ''}<span class="tiny muted grow" style="text-align:right">Toque: 1× feita · 2× dúvida · 3× limpa</span></div>`;
+    const temas = []; qs.forEach(q => { if (temas.indexOf(q.tema) < 0) temas.push(q.tema); });
+    temas.forEach(tm => {
+      const aulaId = qs.find(q => q.tema === tm).aula_id;
+      const isNext = nextAula && aulaId === nextAula.id;
+      h += `<div style="margin-top:14px"><div class="row small" style="margin-bottom:8px;gap:8px"><b>${esc(tm)}</b>${isNext ? '<span class="chip c">próxima aula</span>' : ''}</div><div class="qgrid">${qs.filter(q => q.tema === tm).map(q =>
+        `<button class="q ${status(q.id)} ${isNext ? 'next' : ''}" data-q="${esc(q.id)}" title="${esc(q.resumo)}">${esc(q.numero)}</button>`).join('')}</div></div>`;
+    });
+    h += '</div>';
   });
+  if (ativs.length) {
+    h += `<div class="section"><div class="section-head"><h2>Atividades e entregas</h2></div><div class="card">${ativs.map(x => evPrazo({ data: x.prazo, sig: x.disciplina, kind: 'entrega', titulo: x.titulo, sub: x.obs, id: x.id, link: x.link, check: true })).join('')}</div></div>`;
+  }
   return h;
 }
 
-function blocoPrazos(limite) {
-  let ps = D.Prazos.filter(p => p.data >= D.hoje && (!filtroDisc || p.disciplina === filtroDisc));
-  const total = ps.length;
-  if (limite) ps = ps.slice(0, limite);
-  if (!ps.length) return '';
-  let h = limite ? '<h3>Vence primeiro</h3>' : '';
-  ps.forEach((p, i) => {
-    const n = dias(p.data);
-    const cls = (i === 0 ? 'first ' : '') + (n <= 7 ? 'soon' : '');
-    const tipo = (p.tipo || '').toLowerCase();
-    h += `<div class="deadline ${cls}"><div class="d">${n}<small>${n === 1 ? 'dia' : 'dias'}</small></div>
-      <div><span class="pill ${tipo.indexOf('prova') >= 0 ? 'prova' : tipo.indexOf('lista') >= 0 ? 'lista' : ''}">${esc(p.tipo)}</span>
-      <span class="pill">${esc(p.disciplina)}</span><div><b>${esc(p.titulo)}</b></div><div class="muted">${fmtData(p.data)}</div></div></div>`;
-  });
-  if (limite && total > limite) h += `<p class="muted">+${total - limite} na aba Prazos</p>`;
+function exId(aulaId, exs, i) {
+  const b = exs[i].bloco; const k = exs.slice(0, i + 1).filter(x => x.bloco === b).length;
+  return `${aulaId}-${b}${k}`;
+}
+function vAula(r) {
+  const a = D.Aulas.find(x => x.id === r.a);
+  if (!a) return '<div class="empty">Aula não encontrada.</div>';
+  const d = disc(a.disciplina); const c = D._cont[a.id]; const step = r.b || 'pre';
+  const n = diff(TODAY(), a.data);
+  let h = `<div style="${cvar(a.disciplina)}"><div class="dhero"><div class="row wrap" style="gap:6px"><span class="chip c">${esc(d.nome_curto)} · Aula ${esc(a.num)}</span>
+    ${a.cai_em ? `<span class="chip danger">Cai na ${esc(a.cai_em)}</span>` : ''}${a.tipo === 'prática' ? '<span class="chip">Prática</span>' : ''}</div>
+    <h1>${esc(a.tema)}</h1><div class="small t2">${esc(fmtLong(a.data))} · ${esc(a.horario)} · ${esc(a.sala)} · <b>${relDay(n)}</b></div>
+    ${a.topicos ? `<div class="small t2" style="margin-top:8px">${esc(a.topicos)}</div>` : ''}
+    <div class="row wrap" style="margin-top:14px;gap:8px">${a.link_material ? `<a class="btn sm c" href="${esc(a.link_material)}" target="_blank" rel="noopener">${esc(a.material_prof || 'Material do professor')} ${ICON.ext}</a>` : ''}
+    ${a.questoes_lista ? `<a class="btn sm" href="#/disc/${esc(a.disciplina)}/listas">Lista: ${esc(a.questoes_lista)}</a>` : ''}</div></div>`;
+  if (!c) {
+    return h + `<div class="section card pad"><h2 style="font-size:17px">Material de estudo ainda não gerado</h2><p class="t2 small">O material (pré-aula, exercícios e prompt) é gerado para as aulas das próximas duas semanas. Enquanto isso, use o material do professor acima.</p>
+      ${d.formato_prova ? `<div class="callout small" style="margin-top:12px"><b>Como esta disciplina cobra:</b> ${md(d.formato_prova)}</div>` : ''}</div></div>`;
+  }
+  let exs = []; try { exs = JSON.parse(c.exercicios_json || '[]'); } catch (e) {}
+  const ids = exs.map((x, i) => exId(a.id, exs, i));
+  const feitos = ids.filter(i => status(i)).length;
+  const preOk = status(a.id + '-PRE') === 'ok';
+  const steps = [['pre', '1', 'Pré-aula', '10 min'], ['ex', '2', 'Exercícios', `${feitos}/${exs.length}`], ['ia', '3', 'Estudar com IA', '']];
+  h += `<nav class="steps">${steps.map(([k, nn, l, sub]) => `<a class="${step === k ? 'on' : ''} ${(k === 'pre' && preOk) || (k === 'ex' && feitos === exs.length && exs.length) ? 'done' : ''}" href="#/aula/${esc(a.id)}/${k}"><span class="n">${(k === 'pre' && preOk) || (k === 'ex' && feitos === exs.length && exs.length) ? '✓' : nn}</span>${l}<span class="lbl-long muted" style="font-weight:500">${sub ? ' · ' + sub : ''}</span></a>`).join('')}</nav>`;
+
+  if (step === 'pre') {
+    h += `<div class="card pad md">${md(c.leitura_pre)}</div>
+      <div class="row" style="margin-top:14px;justify-content:space-between"><button class="btn ${preOk ? '' : 'primary'}" data-mark="${esc(a.id)}-PRE">${preOk ? '✓ Pré-aula lida' : 'Marquei como lida'}</button>
+      <a class="btn c" href="#/aula/${esc(a.id)}/ex">Ir para os exercícios ${ICON.chev}</a></div>`;
+  } else if (step === 'ex') {
+    const nomes = { A: ['Aquecimento', 'direto, 1–2 min cada'], B: ['Notação', 'ler e escrever os símbolos'], C: ['Modelo de prova', 'nível da prova, inclui demonstração'] };
+    ['A', 'B', 'C'].forEach(b => {
+      const xs = exs.map((x, i) => [x, i]).filter(([x]) => x.bloco === b);
+      if (!xs.length) return;
+      h += `<div class="card section" style="margin-top:16px"><div class="block-head"><span class="num">${b}</span><h3>${nomes[b][0]}</h3><span class="small muted">${nomes[b][1]}</span></div>`;
+      xs.forEach(([x, i], k) => {
+        const id = ids[i]; const st = status(id);
+        h += `<div class="ex"><div class="row" style="align-items:flex-start;gap:12px"><span class="num">${b}${k + 1}</span><div class="grow">
+          <div class="md">${md(x.enunciado)}</div>${x.fonte ? `<div class="tiny muted" style="margin-top:4px">Fonte: ${esc(x.fonte)}</div>` : ''}
+          <details ${st ? 'open' : ''}><summary class="small" style="cursor:pointer;margin-top:10px;font-weight:600">Ver gabarito comentado</summary>
+          <div class="gab md">${md(x.gabarito)}${x.comentario ? `<div class="tip">${md('**Erro comum / dica:** ' + x.comentario)}</div>` : ''}</div>
+          <div class="selfcheck"><button class="acertei ${st === 'acertei' ? 'on' : ''}" data-self="${esc(id)}" data-v="acertei">Acertei</button><button class="errei ${st === 'errei' ? 'on' : ''}" data-self="${esc(id)}" data-v="errei">Errei / travei</button></div>
+          </details></div></div></div>`;
+      });
+      h += '</div>';
+    });
+    const ac = ids.filter(i => status(i) === 'acertei').length, er = ids.filter(i => status(i) === 'errei').length;
+    h += `<div class="card pad section row wrap" style="justify-content:space-between"><div class="small"><b>${ac}</b> acertos · <b>${er}</b> para revisar · ${exs.length - ac - er} sem marcar</div>
+      <a class="btn c" href="#/aula/${esc(a.id)}/ia">Revisar com IA ${ICON.chev}</a></div>`;
+  } else {
+    const errados = exs.map((x, i) => [x, ids[i]]).filter(([, id]) => status(id) === 'errei');
+    h += `<div class="card pad"><div class="row wrap" style="justify-content:space-between;gap:10px"><div><h2 style="font-size:17px">Prompt da aula</h2><div class="small muted">Cole no Claude, ChatGPT ou Gemini (a versão grátis serve).</div></div>
+      <button class="btn primary" data-copy="prompt-${esc(a.id)}">${ICON.copy} Copiar prompt</button></div>
+      <pre class="prompt" id="prompt-${esc(a.id)}" style="margin-top:14px">${esc(c.prompt_ia)}${errados.length ? esc('\n\nEU ERREI ESTES EXERCÍCIOS — comece por eles:\n' + errados.map(([x]) => '- ' + x.enunciado.replace(/\$/g, '')).join('\n')) : ''}</pre>
+      ${errados.length ? `<div class="callout small" style="margin-top:12px">Incluí no prompt os ${errados.length} exercícios que você marcou como "Errei".</div>` : ''}</div>`;
+  }
+  return h + '</div>';
+}
+
+function vAgenda(r) {
+  const t = TODAY();
+  let start = r.a || monday(toD(t).getDay() % 6 === 0 ? addDays(t, 2) : t);
+  const end = addDays(start, 6);
+  const ps = prazos().filter(p => p.kind === 'entrega');
+  const label = `${toD(start).getDate()} ${MES[toD(start).getMonth()]} – ${toD(end).getDate()} ${MES[toD(end).getMonth()]}`;
+  let h = `<div class="row" style="justify-content:space-between;margin-top:8px"><h1 class="hero-title" style="margin:0">Agenda</h1>
+    <div class="week-nav"><a class="iconbtn" href="#/agenda/${addDays(start, -7)}" title="Semana anterior">${ICON.left}</a>
+    <a class="btn sm" href="#/agenda">Esta semana</a><a class="iconbtn" href="#/agenda/${addDays(start, 7)}" title="Próxima semana">${ICON.chev}</a></div></div>
+    <div class="t2" style="margin-top:4px">${label}</div>`;
+  const provasSemana = D.Avaliacoes.filter(a => a.data >= start && a.data <= end);
+  if (provasSemana.length >= 2) h += `<div class="alert section"><div class="ic">!</div><div><b>${provasSemana.length} provas nesta semana.</b> Planeje a revisão com antecedência.</div></div>`;
+  for (let i = 0; i < 7; i++) {
+    const day = addDays(start, i);
+    const aulas = D._aulas.filter(a => a.data === day);
+    const ent = ps.filter(p => p.data === day);
+    if (!aulas.length && !ent.length && i >= 5) continue;
+    h += `<div class="day ${day === t ? 'today' : ''}"><div class="day-head">${esc(fmtLong(day))}${day === t ? '<span class="chip ok">hoje</span>' : ''}</div>`;
+    if (!aulas.length && !ent.length) h += '<div class="card empty" style="padding:14px">Sem aulas</div>';
+    else h += `<div class="card">${aulas.map(a => evAula(a, { time: true })).join('')}${ent.map(evPrazo).join('')}</div>`;
+    h += '</div>';
+  }
   return h;
 }
 
 function vPrazos() {
-  let h = chipsDisc() + blocoPrazos(0);
-  const passados = D.Prazos.filter(p => p.data < D.hoje && (!filtroDisc || p.disciplina === filtroDisc));
-  if (passados.length) {
-    h += '<details><summary>Já passaram</summary>';
-    passados.forEach(p => { h += `<div class="deadline past"><div class="d">${fmtData(p.data)}</div><div>${esc(p.disciplina)} · ${esc(p.titulo)}</div></div>`; });
-    h += '</details>';
-  }
-  return h || '<div class="empty">Nenhum prazo cadastrado.</div>';
-}
-
-function statusDe(pessoa, item) {
-  const p = D.Progresso.find(x => x.pessoa_id === pessoa && x.item_id === item);
-  return p ? p.status : '';
-}
-
-function vListas() {
-  const eu = $('#pessoa').value;
-  let h = chipsDisc() + '<p class="muted">Toque numa questão: 1× feita · 2× dúvida · 3× limpa. Contorno verde = questão da próxima aula.</p>';
-  const proxAulas = new Set();
-  const futuras = D.Aulas.filter(a => a.data >= D.hoje).sort((a, b) => a.data.localeCompare(b.data));
-  if (futuras[0]) proxAulas.add(futuras[0].id);
-  D.Listas.filter(l => !filtroDisc || l.disciplina === filtroDisc).forEach(l => {
-    const qs = D.ListaQuestoes.filter(q => q.lista_id === l.id).sort((a, b) => +a.numero - +b.numero);
-    h += `<div class="card"><div class="row"><h2>${esc(l.titulo)}</h2><span class="pill lista">entrega ${fmtData(l.prazo)} (${dias(l.prazo)} dias)</span></div>
-      <div class="muted">${esc(l.formato)} ${l.peso ? '· ' + esc(l.peso) : ''} ${l.link ? `· <a href="${esc(l.link)}" target="_blank">abrir PDF</a>` : ''}</div>`;
-    if (!qs.length) { h += '<p class="muted">Ainda não publicada.</p></div>'; return; }
-    D.Pessoas.forEach(p => {
-      const feitas = qs.filter(q => statusDe(p.id, q.id) === 'feito').length;
-      const pct = Math.round(100 * feitas / qs.length);
-      h += `<div class="row"><span>${esc(p.nome)}${p.id === eu ? ' (você)' : ''}</span><span class="muted">${feitas}/${qs.length}</span></div><div class="progress"><div style="width:${pct}%"></div></div>`;
-    });
-    // agrupado por tema
-    const temas = [];
-    qs.forEach(q => { if (temas.indexOf(q.tema) < 0) temas.push(q.tema); });
-    temas.forEach(t => {
-      h += `<h3>${esc(t)}</h3><div class="grid">`;
-      qs.filter(q => q.tema === t).forEach(q => {
-        const st = statusDe(eu, q.id);
-        h += `<div class="q ${st} ${proxAulas.has(q.aula_id) ? 'hl' : ''}" data-q="${esc(q.id)}" title="${esc(q.resumo)}">${esc(q.numero)}</div>`;
-      });
-      h += '</div>';
-    });
-    h += '</div>';
+  const t = TODAY(); const f = store.get('prazoFiltro', '');
+  let ps = prazos().filter(p => !f || p.sig === f);
+  if (S.hideDone) ps = ps.filter(p => !(p.check && isDone(p)));
+  const groups = [
+    ['Passaram sem marcar como feito', p => p.data < t && p.kind !== 'prova' && !isDone(p)],
+    ['Próximos 7 dias', p => p.data >= t && p.data <= addDays(t, 7)],
+    ['Próximas 3 semanas', p => p.data > addDays(t, 7) && p.data <= addDays(t, 28)],
+    ['Depois', p => p.data > addDays(t, 28)],
+  ];
+  let h = `<h1 class="hero-title" style="margin-top:8px">Prazos</h1><p class="t2" style="margin:4px 0 14px">Provas e entregas das 5 disciplinas, da mais próxima para a mais distante.</p>
+    <div class="row wrap" style="justify-content:space-between;gap:10px"><div class="filter">${[['', 'Todas']].concat(D.Disciplinas.map(d => [d.sigla, d.nome_curto])).map(([k, l]) =>
+      `<button class="${f === k ? 'on' : ''}" data-filter="${esc(k)}" style="${k ? cvar(k) : ''}">${k ? '<span class="dot"></span>' : ''}${esc(l)}</button>`).join('')}</div>
+    <label class="small t2 row" style="gap:6px;cursor:pointer"><input type="checkbox" id="hideDone" ${S.hideDone ? 'checked' : ''}> Ocultar feitos</label></div>`;
+  groups.forEach(([nome, fn]) => {
+    const xs = ps.filter(fn);
+    if (!xs.length) return;
+    h += `<div class="section"><div class="section-head"><h2>${nome}</h2><span class="small muted">${xs.length}</span></div><div class="card">${xs.map(evPrazo).join('')}</div></div>`;
   });
   return h;
 }
 
-function vDisc() {
-  let h = '';
-  D.Disciplinas.forEach(d => {
-    h += `<div class="card"><h2>${esc(d.nome)}</h2><p class="muted">${esc(d.codigo)} · ${esc(d.turma)}</p>
-      <p><b>Professor:</b> ${esc(d.professor)} ${d.email_prof ? '— ' + esc(d.email_prof) : ''}<br>
-      <b>Horários:</b> ${esc(d.horarios)}<br><b>Sala:</b> ${esc(d.sala)}</p>
-      <h3>Como é cobrado</h3><div class="md">${md(d.formato_prova)}</div>
-      <h3>Avaliação</h3><div class="md">${md(d.criterio_avaliacao)}</div>
-      <h3>Bibliografia</h3><div class="md">${md(d.bibliografia)}</div>
-      <p>${[['Material do professor', d.link_material], ['Plano de ensino', d.link_plano], ['SIGAA', d.link_sigaa], ['Moodle', d.link_moodle]]
-        .filter(x => x[1]).map(x => `<a href="${esc(x[1])}" target="_blank">${x[0]}</a>`).join(' · ')}</p>
-      ${d.obs ? `<div class="md muted">${md(d.obs)}</div>` : ''}</div>`;
-  });
-  const mud = D.Mudancas.slice(-10).reverse();
-  if (mud.length) {
-    h += '<div class="card"><h2>Últimas mudanças detectadas</h2>';
-    mud.forEach(m => { h += `<p><b>${esc(m.data)}</b> · ${esc(m.disciplina)} — ${esc(m.o_que_mudou)} <span class="muted">(${esc(m.fonte)})</span></p>`; });
-    h += '</div>';
-  }
-  return h;
+// ================= Pessoa =================
+function askWho() {
+  $('#overlay').innerHTML = `<div class="modal"><div class="box"><h2 style="font-size:20px">Quem é você?</h2><p class="t2 small" style="margin:6px 0 0">Seu progresso nas listas e exercícios fica salvo no seu nome. Dá para trocar depois pelo botão redondo no topo.</p>
+    <div class="who">${D.Pessoas.map(p => `<button data-who="${esc(p.id)}"><span class="avatar" style="pointer-events:none">${esc(p.nome[0])}</span>${esc(p.nome)}</button>`).join('')}</div></div></div>`;
 }
 
-function render() {
-  const fn = { hoje: vHoje, aulas: vAulas, prazos: vPrazos, listas: vListas, disc: vDisc }[view];
-  $('#app').innerHTML = fn();
-  renderMath($('#app'));
+// ================= Eventos =================
+function toast(msg) {
+  const el = document.createElement('div'); el.className = 'toast fade'; el.textContent = msg; document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1800);
 }
-
-// ---------- Eventos ----------
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-v],[data-aula],[data-back],[data-copy],[data-q],[data-disc]');
+  const t = e.target.closest('[data-who],[data-q],[data-toggle],[data-self],[data-mark],[data-copy],[data-filter],#me');
   if (!t) return;
-  if (t.dataset.v) {
-    view = t.dataset.v; aulaAberta = null;
-    document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b === t));
-    render(); window.scrollTo(0, 0);
-  } else if (t.dataset.aula) { aulaAberta = t.dataset.aula; render(); window.scrollTo(0, 0); }
-  else if (t.dataset.back) { aulaAberta = null; render(); }
-  else if (t.dataset.disc !== undefined) { filtroDisc = t.dataset.disc; render(); }
-  else if (t.dataset.copy) copiar(t);
-  else if (t.dataset.q) marcar(t);
+  if (t.id === 'me') { askWho(); return; }
+  if (t.dataset.who) { S.pessoa = t.dataset.who; store.set('pessoa', S.pessoa); $('#overlay').innerHTML = ''; render(); return; }
+  if (t.dataset.q) {
+    const cur = status(t.dataset.q); const nv = cur === '' ? 'feito' : cur === 'feito' ? 'duvida' : '';
+    setStatus(t.dataset.q, nv); t.className = 'q ' + nv + (t.classList.contains('next') ? ' next' : '');
+    softRender(); return;
+  }
+  if (t.dataset.toggle) { const on = status(t.dataset.toggle) === 'feito'; setStatus(t.dataset.toggle, on ? '' : 'feito'); if (!on) toast('Marcado como feito ✓'); render(); return; }
+  if (t.dataset.self) { const v = t.dataset.v; setStatus(t.dataset.self, status(t.dataset.self) === v ? '' : v); render(); return; }
+  if (t.dataset.mark) { setStatus(t.dataset.mark, status(t.dataset.mark) === 'ok' ? '' : 'ok'); render(); return; }
+  if (t.dataset.copy) {
+    const txt = document.getElementById(t.dataset.copy).textContent;
+    const done = () => toast('Prompt copiado ✓');
+    const fb = () => { const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); done(); } catch (er) { toast('Selecione e copie manualmente'); } ta.remove(); };
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, fb); else fb();
+    return;
+  }
+  if (t.dataset.filter !== undefined) { store.set('prazoFiltro', t.dataset.filter); render(); }
 });
+document.addEventListener('change', e => { if (e.target.id === 'hideDone') { S.hideDone = e.target.checked; store.set('hideDone', S.hideDone); render(); } });
+// re-render leve (sem perder rolagem) depois de marcar questão
+let softT = null;
+function softRender() { clearTimeout(softT); softT = setTimeout(() => { const y = window.scrollY; render(); window.scrollTo(0, y); }, 250); }
+// mantém a rolagem nos re-renders disparados por cliques
+const _render = render;
+render = function () { const y = window.scrollY; const same = render._last === location.hash; _render(); if (same) window.scrollTo(0, y); render._last = location.hash; };
 
-function copiar(btn) {
-  const txt = document.getElementById(btn.dataset.copy).textContent;
-  const ok = () => { btn.textContent = 'Copiado ✓'; setTimeout(() => btn.textContent = 'Copiar prompt', 1500); };
-  const fallback = () => {
-    const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); ok(); } catch (e) { alert('Selecione o texto e copie manualmente.'); }
-    ta.remove();
-  };
-  if (navigator.clipboard) navigator.clipboard.writeText(txt).then(ok, fallback); else fallback();
-}
-
-function marcar(el) {
-  const eu = $('#pessoa').value, item = el.dataset.q;
-  const atual = statusDe(eu, item);
-  const novo = atual === '' ? 'feito' : atual === 'feito' ? 'duvida' : '';
-  const reg = D.Progresso.find(x => x.pessoa_id === eu && x.item_id === item);
-  if (reg) reg.status = novo; else D.Progresso.push({ pessoa_id: eu, item_id: item, status: novo });
-  render();
-  const falhou = err => { alert('Não salvou: ' + (err && err.message || err)); load(); };
-  if (NO_APPS_SCRIPT) {
-    // text/plain evita preflight CORS; credentials 'omit' evita o bug de várias contas Google.
-    fetch(API_URL, { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ action: 'progress', pessoa_id: eu, item_id: item, status: novo }) })
-      .then(r => r.json()).then(r => { if (!r.ok) falhou(r.error); }).catch(falhou);
-  } else {
-    google.script.run.withFailureHandler(falhou).setProgress(eu, item, novo);
-  }
-}
-
-$('#pessoa').addEventListener('change', e => { store.set('pessoa', e.target.value); render(); });
-
-// Fora do Apps Script (página hospedada à parte), lê os dados pela API JSON.
-const API_URL = 'https://script.google.com/macros/s/AKfycbyle7ahYFEoJI1T7GMXuSwWQ_ONjCFcPyGK9yYVUn4Ok2jPjJNWgIzO1-48Or-4Oi1K/exec';
-const NO_APPS_SCRIPT = !(window.google && google.script && google.script.run);
-
-function load() {
-  const ok = json => {
-    D = typeof json === 'string' ? JSON.parse(json) : json;
-    const sel = $('#pessoa');
-    sel.innerHTML = D.Pessoas.map(p => `<option value="${esc(p.id)}">${esc(p.nome)}</option>`).join('');
-    const salvo = store.get('pessoa');
-    if (salvo && D.Pessoas.some(p => p.id === salvo)) sel.value = salvo;
-    render();
-  };
-  const erro = err => { $('#app').innerHTML = '<div class="empty">Erro ao carregar: ' + esc(err && err.message || err) + '</div>'; };
-  if (NO_APPS_SCRIPT) {
-    fetch(API_URL + '?api=data', { credentials: 'omit' }).then(r => r.json()).then(ok).catch(erro);
-  } else {
-    google.script.run.withSuccessHandler(ok).withFailureHandler(erro).getData();
-  }
-}
 load();
 </script>
 </body>
