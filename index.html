@@ -223,6 +223,46 @@ a.ev:hover { background: var(--surface-2); }
 @media (min-width: 861px) { .toast { bottom: 24px; } }
 .fade { animation: fade .18s ease-out; }
 @keyframes fade { from { opacity: 0; transform: translateY(4px); } }
+
+/* Notas */
+.nota-card { padding: 0; overflow: hidden; }
+.nota-head { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.seg { display: inline-flex; padding: 3px; border-radius: 10px; background: var(--surface-2); gap: 2px; }
+.seg button { border: 0; background: none; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text-2); cursor: pointer; }
+.seg button.on { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.formula { padding: 14px 18px; background: color-mix(in srgb, var(--c) 7%, var(--surface)); border-bottom: 1px solid var(--line); }
+.formula .katex-display { margin: 4px 0; }
+.nota-body { display: grid; grid-template-columns: 1.1fr 1fr; gap: 0; }
+.nota-body > div { padding: 16px 18px; min-width: 0; }
+.nota-body > div + div { border-left: 1px solid var(--line); }
+@media (max-width: 700px) { .nota-body { grid-template-columns: 1fr; } .nota-body > div + div { border-left: 0; border-top: 1px solid var(--line); } }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.field label { display: flex; justify-content: space-between; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-2); margin-bottom: 5px; }
+.field label span { font-weight: 500; color: var(--muted); white-space: nowrap; }
+.field input, .field select { width: 100%; height: 46px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: 600 18px Inter, system-ui, sans-serif; padding: 0 12px; text-align: center; -moz-appearance: textfield; }
+.field input:focus, .field select:focus { outline: 2px solid var(--c); outline-offset: 1px; border-color: transparent; }
+.field input::-webkit-outer-spin-button, .field input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.field input::placeholder { font-size: 13px; font-weight: 500; color: var(--muted); }
+.field .hint { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+.sim .field input, .sim .field select { border-style: dashed; border-color: var(--c); }
+.result { display: flex; align-items: center; gap: 16px; }
+.big-c { width: 72px; height: 72px; border-radius: 18px; display: grid; place-items: center; font-size: 38px; font-weight: 800; color: #fff; background: var(--muted); flex: none; }
+.big-c.A { background: #079455; } .big-c.B { background: #1570EF; } .big-c.C { background: #DC6803; } .big-c.D { background: #D92D20; } .big-c.F { background: #912018; } .big-c.na { background: var(--surface-3); color: var(--muted); font-size: 26px; }
+.esc { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13.5px; }
+.esc td { padding: 7px 10px; border-top: 1px solid var(--line); }
+.esc tr.on td { background: color-mix(in srgb, var(--c) 14%, transparent); font-weight: 700; }
+.esc td:first-child { width: 44px; font-weight: 700; }
+.need { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 10px; }
+.need div { padding: 9px 10px; border-radius: 10px; background: var(--surface-2); font-size: 12.5px; }
+.need b.v { display: block; font-size: 16px; }
+.need .ok b.v { color: var(--ok); } .need .no b.v { color: var(--danger); }
+.matrix { border-collapse: collapse; font-size: 13px; margin-top: 10px; width: 100%; }
+.matrix th, .matrix td { text-align: center; padding: 6px; border: 1px solid var(--line); }
+.matrix th { background: var(--surface-2); font-weight: 650; }
+.matrix td.on { background: var(--c); color: #fff; font-weight: 800; }
+.matrix td.hl { background: color-mix(in srgb, var(--c) 10%, transparent); }
+.ca { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.ca .num { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; }
 </style>
 </head>
 <body>
@@ -250,6 +290,7 @@ const ICON = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
   cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>',
   book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v15H5.5A1.5 1.5 0 0 0 4 19.5z"/><path d="M4 19.5A1.5 1.5 0 0 0 5.5 21H20"/></svg>',
+  grade: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
   flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-1.5 4L16 12H5"/></svg>',
   chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>',
   left: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>',
@@ -416,7 +457,7 @@ function route() {
 function render() {
   if (!D) return;
   const r = route();
-  const views = { hoje: vHoje, agenda: vAgenda, disc: r.a ? vDisc : vDiscs, aula: vAula, prazos: vPrazos };
+  const views = { hoje: vHoje, agenda: vAgenda, disc: r.a ? vDisc : vDiscs, aula: vAula, prazos: vPrazos, notas: vNotas };
   const fn = views[r.name] || vHoje;
   renderChrome(r);
   const page = $('#page');
@@ -427,7 +468,7 @@ function render() {
   setSync(S.syncState);
 }
 function renderChrome(r) {
-  const nav = [['hoje', 'Hoje', ICON.home], ['agenda', 'Agenda', ICON.cal], ['disc', 'Disciplinas', ICON.book], ['prazos', 'Prazos', ICON.flag]];
+  const nav = [['hoje', 'Hoje', ICON.home], ['agenda', 'Agenda', ICON.cal], ['disc', 'Disciplinas', ICON.book], ['notas', 'Notas', ICON.grade], ['prazos', 'Prazos', ICON.flag]];
   const active = r.name === 'aula' ? 'disc' : r.name;
   const links = nav.map(([k, l, ic]) => `<a class="navlink ${active === k ? 'on' : ''}" href="#/${k}">${ic}<span>${l}</span></a>`).join('');
   const discs = D.Disciplinas.map(d => `<a class="disc-link ${(r.name === 'disc' && r.a === d.sigla) || (r.name === 'aula' && r.a && r.a.startsWith(d.sigla + '-')) ? 'on' : ''}" href="#/disc/${esc(d.sigla)}" style="${cvar(d.sigla)}"><span class="dot"></span>${esc(d.nome_curto || d.nome)}</a>`).join('');
@@ -473,6 +514,106 @@ function progressPeople(items, c) {
     const v = pct(items, p.id) || 0;
     return `<div class="p"><span class="${p.id === S.pessoa ? '' : 't2'}">${esc(p.nome)}${p.id === S.pessoa ? ' ·' : ''}</span><div class="bar" style="--c:${c}"><i style="width:${v}%"></i></div><span class="t2" style="text-align:right">${v}%</span></div>`;
   }).join('')}</div>`;
+}
+
+// ================= Notas / conceito =================
+const CONCEITO_PTS = { A: 4, B: 3, C: 2, D: 1, F: 0 };
+const fmtN = (x, c = 1) => x == null || isNaN(x) ? '—' : Number(x).toFixed(c).replace('.', ',');
+const roundTo = (x, c) => { const f = Math.pow(10, c || 0); return Math.round((x + 1e-9) * f) / f; };
+S.sim = {}; S.simMode = {};
+function cfg(d) { if (!d || !d.nota_config) return null; if (d._cfg === undefined) { try { d._cfg = JSON.parse(d.nota_config); } catch (e) { d._cfg = null; } } return d._cfg; }
+// Em modo simulação, o valor simulado substitui o real; sem simulação, vale o salvo.
+function notaVal(sig, comp) {
+  if (S.simMode[sig] && S.sim[sig] && S.sim[sig][comp] !== undefined) return S.sim[sig][comp];
+  return status('N-' + sig + '-' + comp);
+}
+function escalaDe(c, x) { for (const [k, min] of c.escala) if (x >= min - 1e-9) return k; return 'F'; }
+function notaCalc(d) {
+  const c = cfg(d); if (!c) return null;
+  const vals = {}; c.componentes.forEach(k => { const v = notaVal(d.sigla, k.id); vals[k.id] = v === '' || v == null ? null : v; });
+  const faltam = c.componentes.filter(k => vals[k.id] == null);
+  if (c.modelo === 'matriz') {
+    let ct = null;
+    if (vals.P1 && vals.P2) {
+      const m = (CONCEITO_PTS[vals.P1] + CONCEITO_PTS[vals.P2]) / 2;
+      ct = m >= 3.5 ? 'A' : m >= 2.5 ? 'B' : m >= 1.5 ? 'C' : m >= 0.5 ? 'D' : 'F';
+    }
+    const conceito = ct && vals.CP ? c.matriz[vals.CP]['ABCDF'.indexOf(ct)] : null;
+    return { cfg: c, vals, faltam, ct, cp: vals.CP, conceito, nota: null };
+  }
+  const max = c.max || 10;
+  let soma = 0, pesoFalta = 0;
+  c.componentes.forEach(k => { const v = vals[k.id]; const mx = k.max || max; if (v == null) pesoFalta += k.peso * mx; else soma += k.peso * Math.min(+v, mx); });
+  if (!faltam.length) { const nota = roundTo(soma, c.casas); return { cfg: c, vals, faltam, nota, conceito: escalaDe(c, nota) }; }
+  // Quanto precisa: mesma fração do máximo em todas as que faltam.
+  const need = c.escala.filter(([k]) => k !== 'F').map(([k, min]) => [k, (min - soma) / pesoFalta]);
+  return { cfg: c, vals, faltam, soma, need, conceito: null, nota: null, max };
+}
+function notaCard(d) {
+  const c = cfg(d); if (!c) return '';
+  const sig = d.sigla; const sim = !!S.simMode[sig];
+  const r = notaCalc(d);
+  let h = `<div class="card nota-card ${sim ? 'sim' : ''}" style="${cvar(sig)}"><div class="nota-head"><div class="grow"><h2 style="font-size:17px">Nota e conceito</h2>
+    <div class="small muted">${sim ? 'Simulação: nada é salvo. Teste cenários à vontade.' : 'Suas notas reais, salvas no seu nome.'}</div></div>
+    <div class="seg"><button class="${sim ? '' : 'on'}" data-simmode="${esc(sig)}" data-v="0">Minhas notas</button><button class="${sim ? 'on' : ''}" data-simmode="${esc(sig)}" data-v="1">Simular</button></div></div>
+    <div class="formula"><div class="md">${md(c.formula)}</div><div class="tiny t2">${esc(c.legenda || '')}</div></div><div class="nota-body"><div>`;
+  h += '<div class="fields">';
+  c.componentes.forEach(k => {
+    const v = notaVal(sig, k.id); const id = `n-${sig}-${k.id}`;
+    const when = k.data ? (k.data < TODAY() ? fmtShort(k.data) : relDay(diff(TODAY(), k.data))) : '';
+    h += `<div class="field"><label for="${id}">${esc(k.label)}<span>${esc(when)}</span></label>`;
+    if (k.tipo === 'conceito') h += `<select id="${id}" data-nota="${esc(sig)}|${esc(k.id)}"><option value="">—</option>${'ABCDF'.split('').map(x => `<option ${v === x ? 'selected' : ''}>${x}</option>`).join('')}</select>`;
+    else h += `<input id="${id}" type="text" inputmode="decimal" autocomplete="off" placeholder="0 a ${k.max || c.max}" value="${esc(v === '' ? '' : String(v).replace('.', ','))}" data-nota="${esc(sig)}|${esc(k.id)}">`;
+    if (k.auto === 'relatorios') {
+      const ent = D.Atividades.filter(t => t.disciplina === sig && t.tipo === 'Relatório' && status(t.id) === 'feito').length;
+      h += `<div class="hint">${ent} relatório(s) marcado(s) como entregue(s) → até ${ent * 5} pts</div>`;
+    }
+    h += '</div>';
+  });
+  h += '</div></div><div>';
+  if (r.conceito) {
+    const linha = c.modelo === 'matriz' ? `Teoria (CT) <b>${r.ct}</b> × Prática (CP) <b>${r.cp}</b>` : `${c.modelo === 'pontos' ? 'Total' : 'Nota final'} <b>${fmtN(r.nota)}</b>${c.modelo === 'pontos' ? ' pts' : ''}`;
+    h += `<div class="result"><div class="big-c ${r.conceito}">${r.conceito}</div><div><div class="small muted">${sim ? 'Conceito simulado' : 'Seu conceito'}</div><div style="font-size:16px">${linha}</div>
+      ${r.conceito === 'D' || r.conceito === 'F' ? `<div class="small" style="color:var(--danger);margin-top:4px">${r.conceito === 'F' ? 'Reprovação' : 'Aprovado com D'}${c.rec ? ' · pode fazer ' + esc(c.rec.label) : ''}</div>` : ''}</div></div>`;
+  } else if (c.modelo === 'matriz') {
+    h += `<div class="result"><div class="big-c na">?</div><div class="small t2">Preencha P1, P2 e a prática para ver o conceito final.${r.ct ? `<br>Teoria (CT) até agora: <b>${r.ct}</b>` : ''}</div></div>`;
+  } else {
+    const falta = r.faltam.map(k => k.label.split(' (')[0]);
+    const unico = falta.length === 1;
+    h += `<div class="result"><div class="big-c na">?</div><div><div class="small muted">Falta: ${esc(falta.join(', '))}</div><div style="font-size:15px;line-height:1.35">Quanto você precisa ${unico ? 'na <b>' + esc(falta[0]) + '</b>' : '(mesma nota em todas as que faltam)'} para cada conceito:</div></div></div><div class="need">`;
+    r.need.forEach(([k, frac]) => {
+      const mx = unico ? (r.faltam[0].max || r.max) : r.max;
+      const cls = frac <= 0 ? 'ok' : frac > 1 ? 'no' : '';
+      h += `<div class="${cls}">Para ${k}<b class="v">${frac <= 0 ? 'garantido' : frac > 1 ? 'impossível' : fmtN(frac * mx)}</b></div>`;
+    });
+    h += '</div>';
+  }
+  if (c.modelo === 'matriz') {
+    h += `<div class="small muted" style="margin-top:14px">Tabela do plano: linhas = prática (CP), colunas = teoria (CT)</div><table class="matrix"><tr><th>CP \\ CT</th>${'ABCDF'.split('').map(x => `<th>${x}</th>`).join('')}</tr>${'ABCDF'.split('').map(cp => `<tr><th>${cp}</th>${c.matriz[cp].map((v, i) => {
+      const ct = 'ABCDF'[i]; const on = r.ct === ct && r.cp === cp; const hl = !on && (r.cp === cp || r.ct === ct);
+      return `<td class="${on ? 'on' : hl ? 'hl' : ''}">${v}</td>`; }).join('')}</tr>`).join('')}</table>`;
+  } else {
+    h += `<table class="esc">${c.escala.map(([k, , faixa]) => `<tr class="${r.conceito === k ? 'on' : ''}"><td>${k}</td><td>${esc(faixa)}</td></tr>`).join('')}</table>`;
+  }
+  if (c.rec) h += `<div class="callout small" style="margin-top:14px"><b>${esc(c.rec.label)}</b> · ${esc(c.rec.quem)}${c.rec.formula ? `<div class="md">${md(c.rec.formula)}</div>` : ''}</div>`;
+  h += '</div></div>';
+  if (sim) h += `<div style="padding:0 18px 16px"><button class="btn sm" data-simreset="${esc(sig)}">Recomeçar a simulação com minhas notas</button></div>`;
+  return h + '</div>';
+}
+function vNotas() {
+  const cred = { FQ: 3, BQ: 5, CTS: 3, PE: 4, PROB: 4 };
+  const rs = D.Disciplinas.map(d => [d, notaCalc(d)]);
+  const com = rs.filter(([, r]) => r && r.conceito);
+  const somaC = com.reduce((a, [d, r]) => a + (cred[d.sigla] || 4) * CONCEITO_PTS[r.conceito], 0);
+  const somaCr = com.reduce((a, [d]) => a + (cred[d.sigla] || 4), 0);
+  const media = somaCr ? somaC / somaCr : null;
+  let h = `<h1 class="hero-title" style="margin-top:8px">Notas e conceitos</h1><p class="t2" style="margin:4px 0 0">Coloque suas notas conforme saírem. Use <b>Simular</b> para testar cenários sem salvar.</p>
+    <div class="card pad section"><div class="ca"><div><div class="small muted">Média do quadrimestre (estimativa)</div><div class="num">${media == null ? '—' : fmtN(media, 2)}</div></div>
+    <div class="small t2 grow" style="min-width:220px">Conceitos valem A=4, B=3, C=2, D=1, F=0, ponderados pelos créditos (FQ 3, BQ 5, CTS 3, PE 4, Prob 4 [inferido]).
+    ${com.length < D.Disciplinas.length ? `Considera ${com.length} de ${D.Disciplinas.length} disciplinas: só as que já têm conceito calculado. ` : ''}
+    ${S.pessoa === 'daniel' ? 'Para o seu CA (hoje 2,06) subir, esta média precisa ficar acima dele.' : 'O CA só sobe se esta média ficar acima do seu CA atual.'}</div></div></div>`;
+  D.Disciplinas.forEach(d => { h += `<div class="section"><div class="section-head"><h2><span class="dot" style="${cvar(d.sigla)};display:inline-block;margin-right:8px"></span>${esc(d.nome_curto)}</h2><a href="#/disc/${esc(d.sigla)}/avaliacao">Critérios e datas →</a></div>${notaCard(d)}</div>`; });
+  return h;
 }
 
 // ================= Views =================
@@ -536,6 +677,7 @@ function discGrid() {
       <div class="small t2">${esc((d.professor || '').split('(')[0].split('·')[0].trim())}</div>
       <div class="kv"><span>Próxima aula</span><span>${next ? esc(fmtShort(next.data)) : '—'}</span></div>
       <div class="kv"><span>Próxima prova</span><span>${prova ? `<b>${esc(prova.tipo)}</b> ${relDay(diff(t, prova.data))}` : '—'}</span></div>
+      ${(() => { const r = notaCalc(d); return r && r.conceito ? `<div class="kv"><span>Conceito ${S.simMode[d.sigla] ? 'simulado' : 'atual'}</span><span><b>${r.conceito}</b>${r.nota != null ? ' · ' + fmtN(r.nota) : ''}</span></div>` : ''; })()}
       ${v === null ? '' : `<div class="kv"><span>Listas e tarefas</span><span>${v}%</span></div><div class="bar" style="margin-top:6px"><i style="width:${v}%"></i></div>`}
     </a>`;
   }).join('')}</div>`;
@@ -580,6 +722,7 @@ function vDisc(r) {
     h += vListasDisc(d);
   } else if (tab === 'avaliacao') {
     const avs = D.Avaliacoes.filter(a => a.disciplina === d.sigla).sort((a, b) => a.data.localeCompare(b.data));
+    h += `<div class="section">${notaCard(d)}</div>`;
     h += `<div class="section"><div class="section-head"><h2>Datas</h2></div><div class="card">${avs.map(a => evPrazo({ data: a.data, sig: a.disciplina, kind: 'prova', titulo: a.tipo + (a.peso ? ' · ' + a.peso : ''), sub: a.conteudo + (a.obs ? ' — ' + a.obs : ''), hora: a.horario, id: a.id })).join('')}</div></div>
       <div class="section info-grid"><div class="card pad info"><h3>Critério de avaliação</h3><div class="md">${md(d.criterio_avaliacao)}</div></div>
       <div class="card pad info"><h3>Como é cobrado</h3><div class="md">${md(d.formato_prova)}</div><h3 style="margin-top:16px">Bibliografia</h3><div class="md small">${md(d.bibliografia)}</div></div></div>`;
@@ -744,7 +887,7 @@ function toast(msg) {
   setTimeout(() => el.remove(), 1800);
 }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-who],[data-q],[data-toggle],[data-self],[data-mark],[data-copy],[data-filter],#me');
+  const t = e.target.closest('[data-who],[data-q],[data-toggle],[data-self],[data-mark],[data-copy],[data-filter],[data-simmode],[data-simreset],#me');
   if (!t) return;
   if (t.id === 'me') { askWho(); return; }
   if (t.dataset.who) { S.pessoa = t.dataset.who; store.set('pessoa', S.pessoa); $('#overlay').innerHTML = ''; render(); return; }
@@ -764,8 +907,20 @@ document.addEventListener('click', e => {
     return;
   }
   if (t.dataset.filter !== undefined) { store.set('prazoFiltro', t.dataset.filter); render(); }
+  if (t.dataset.simmode) { const sig = t.dataset.simmode; S.simMode[sig] = t.dataset.v === '1'; if (S.simMode[sig] && !S.sim[sig]) S.sim[sig] = {}; render(); return; }
+  if (t.dataset.simreset) { S.sim[t.dataset.simreset] = {}; render(); return; }
 });
-document.addEventListener('change', e => { if (e.target.id === 'hideDone') { S.hideDone = e.target.checked; store.set('hideDone', S.hideDone); render(); } });
+document.addEventListener('change', e => {
+  if (e.target.id === 'hideDone') { S.hideDone = e.target.checked; store.set('hideDone', S.hideDone); render(); return; }
+  if (e.target.dataset.nota) {
+    const [sig, comp] = e.target.dataset.nota.split('|');
+    const c = cfg(disc(sig)); const k = c.componentes.find(x => x.id === comp);
+    let v = String(e.target.value).trim().replace(',', '.');
+    if (v !== '' && k.tipo !== 'conceito') { const n0 = parseFloat(v); if (isNaN(n0)) { toast('Digite um número, ex.: 6,5'); render(); return; } v = String(roundTo(Math.max(0, Math.min(n0, k.max || c.max)), 2)); }
+    if (S.simMode[sig]) { (S.sim[sig] = S.sim[sig] || {})[comp] = v; } else { setStatus('N-' + sig + '-' + comp, v); if (v !== '') toast('Nota salva ✓'); }
+    render();
+  }
+});
 // re-render leve (sem perder rolagem) depois de marcar questão
 let softT = null;
 function softRender() { clearTimeout(softT); softT = setTimeout(() => { const y = window.scrollY; render(); window.scrollTo(0, y); }, 250); }
